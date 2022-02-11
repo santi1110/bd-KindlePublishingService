@@ -1,0 +1,135 @@
+# -*-perl-*-
+
+package.ATACurriculumKindlePublishingService = {
+    interfaces = (C2020July);
+
+    deploy = {
+        generic = true;
+    };
+
+    build-environment = {
+        chroot = basic;
+        network-access = blocked;
+    };
+
+    build-system = happytrails;
+    build-tools = {
+        C2020July = {
+            ATACheckstyle = 1.1;
+            ATACurriculumKindlePublishingServiceModel = C2020July;
+            Cloud9JavaWrapperGenerator = 1.1;
+            CoralGenerator = 1.2;
+            AmazonCoralDaggerSupportBuildTool = 2.x;
+            HappierTrails = 3.4;
+            OpenJDK8 = 1.1;
+        };
+    };
+
+    dependencies = {
+        C2020July = {
+            ApolloShimSetup = 7.0;
+            ApolloShimOpConfigHelpers = 2.1;
+            AmazonAppConfigJava = 2.0;
+            AmazonCoralThreadLocalContextInterceptor = 1.1;
+            ATACurriculum_JavaProjectResources = 1.0;
+            ATACurriculum_RecommendationsService = 1.0;
+            ATACurriculumKindlePublishingServiceIntrospectionTests = C2020July;
+
+            AWSPersistenceJavaClient = 1.11.x;
+
+            Bobcat = 2.2;
+
+            CoralMetricsQuerylogReporter = 1.1;
+            CloudWatchCoralMetricsReporter = 1.5;
+            AmazonCoralExceptionTranslation = 1.1;
+            CoralOrchestrator = 1.1;
+            CoralService = 1.1;
+
+            AmazonCoralDaggerSupportRuntime = 2.x;
+            GoogleGuava = 23.x;
+            # This supports the different protocols declared in CoralModule.java
+            CoralRpcSupport = 1.1;
+        };
+    };
+
+    test-dependencies = {
+        C2020July = {
+            CoralJavaClientDependencies = 1.1;
+            Mockito = 2.x;
+            JUnit5 = 5.x;
+            ATACurriculumKindlePublishingServiceJavaClient = 1.0;
+            CoralClientBuilder = 1.1;
+        };
+    };
+
+    runtime-dependencies = {
+        C2020July = {
+            AmazonCACerts = 1.0;
+            AmazonFileAppenderJava = 2.8;
+
+            Jcl-over-log4j2 = 2.x; # Coral uses jakarta commons logging
+            Jul-over-log4j2 = 2.x; # Guava will occasionally log to java.util.log
+            Log4j-1_2-api = 2.8; # Many libraries depend on log4j 1.2.
+            Log4j-slf4j = 2.x; # Use Log4j 2.x as our Slf4j logging implementation.
+            log4j = 2.8;
+
+            OpenJDK8 = 1.1;
+        };
+    };
+
+    resolves-conflict-dependencies = {
+        C2020July = {
+            AmazonFileAppenderJava = 2.8; # OdinClient 1.0
+            AmazonApolloEnvironmentInfoJava = 1.2;
+            AmazonAppConfigJava = 2.0;
+
+            AWSJavaClientRuntime = 1.11.x;
+            CoralMetricsReporter = 1.1; # CloudWatchCoralMetricsReporter-1.5
+            GoogleGuava = 23.x;
+            junit = 4.12;
+            Openssl = 1.0.x; # ProcessManager-1.1
+            log4j = 2.8;
+            Log4j-1_2-api = 2.8; # OdinClient-1.0
+            Log4j-core = 2.8;
+
+            J2ee_servlet = 3.1;
+            Jackson-databind = 2.8.x;
+            Jackson-core = 2.8.x;
+            Jackson-annotations = 2.8.x;
+            JakartaCommons-codec = 1.x;
+            ApolloShimSetup = 7.0;
+
+            SnakeYAML = 1.16;
+        };
+    };
+
+    remove-dependencies = {
+        C2020July = {
+            JDK8 = 1.0;
+
+            # We remove the public AWS CloudWatchJavaClient since we use the
+            # AWSCloudWatchInternalJavaClientER.
+            AWSCloudWatchJavaClient = 1.11.x;
+
+            # In docker, we don't use process manager
+            # Try hard to actually remove it - and it's friends.
+            MinimalProcessManager = 3.0;
+            MinimalProcessManager = 1.1;
+            MinimalProcessManager = 1.0;
+            ProcessManager = 1.1;
+            ProcessManager = 1.0;
+            ProcessManagerCommands = 2.2;
+            ProcessManagerCommands = 3.0;
+            ForceRestartProcessManagerCmds = 1.0;
+            ProcessManager = 3.0;
+
+            TestNG = 6.x;
+        };
+    };
+
+    targets = {
+        ATACurriculumKindlePublishingService-C2020July = {
+            type = javalibrary;
+        };
+    };
+};

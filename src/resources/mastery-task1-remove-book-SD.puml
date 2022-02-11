@@ -1,0 +1,27 @@
+@startuml
+title RemoveBookFromCatalog
+
+actor Client
+participant "Load Balancer/ECS" as ecs
+participant RemoveBookFromCatalogActivity
+participant CatalogDao
+database DynamoDB
+
+Client -> ecs : HTTP request
+ecs -> RemoveBookFromCatalogActivity : execute(RemoveBookFromCatalogRequest)
+RemoveBookFromCatalogActivity -> CatalogDao : removeBookFromCatalog(bookId)
+CatalogDao -> DynamoDB : query for latest version of book
+alt if bookId does not exist or book is not active
+    CatalogDao --> RemoveBookFromCatalogActivity : throw BookNotFoundException
+    RemoveBookFromCatalogActivity --> ecs : transform to KindlePublishingClientException
+    ecs --> Client : 400 Response
+else else continue
+end
+DynamoDB -> CatalogDao : book data
+CatalogDao -> CatalogDao : mark book inactive
+CatalogDao -> DynamoDB : save book data
+CatalogDao -> RemoveBookFromCatalogActivity : return
+RemoveBookFromCatalogActivity -> ecs : return RemoveBookFromCatalogResponse
+ecs -> Client : 200 response w/ data
+@enduml
+
