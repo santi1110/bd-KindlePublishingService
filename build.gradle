@@ -156,7 +156,7 @@ project.configurations.implementation.setCanBeResolved(true)
 jar {
     manifest {
         attributes(
-                "Main-Class": "",
+                "Main-Class": "com.amazon.ata.kindlepublishingservice.Main",
                 "Class-Path": configurations.implementation.collect { it.name }.join(' ')
         )
     }
