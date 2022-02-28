@@ -8,6 +8,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConvertedEnum;
 
+import java.util.Objects;
+
 @DynamoDBTable(tableName = "CatalogItemVersions")
 public class CatalogItemVersion {
     private String bookId;
@@ -80,5 +82,47 @@ public class CatalogItemVersion {
 
     public void setInactive(boolean active) {
         inactive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "CatalogItemVersion{" +
+                "bookId='" + bookId + '\'' +
+                ", version=" + version +
+                ", inactive=" + inactive +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", text='" + text + '\'' +
+                ", genre=" + genre +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CatalogItemVersion)) {
+            return false;
+        }
+        CatalogItemVersion that = (CatalogItemVersion) o;
+        return getVersion() == that.getVersion() &&
+                isInactive() == that.isInactive() &&
+                Objects.equals(getBookId(), that.getBookId()) &&
+                Objects.equals(getTitle(), that.getTitle()) &&
+                Objects.equals(getAuthor(), that.getAuthor()) &&
+                Objects.equals(getText(), that.getText()) &&
+                getGenre() == that.getGenre();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBookId(),
+                getVersion(),
+                isInactive(),
+                getTitle(),
+                getAuthor(),
+                getText(),
+                getGenre());
     }
 }

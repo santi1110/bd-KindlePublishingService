@@ -5,10 +5,6 @@ import java.util.Objects;
 public class GetBookRequest {
     private String bookId;
 
-    public GetBookRequest(String bookId) {
-        this.bookId = bookId;
-    }
-
     public String getBookId() {
         return bookId;
     }
@@ -16,6 +12,8 @@ public class GetBookRequest {
     public void setBookId(String bookId) {
         this.bookId = bookId;
     }
+
+    public GetBookRequest() {}
 
     public GetBookRequest(Builder builder) {
         this.bookId = builder.bookId;
