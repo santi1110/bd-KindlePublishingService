@@ -6,8 +6,6 @@ books published!
 
 **Milestone 1: Implement BookPublishTask**
 
-**Reviewer: Project Buddy**
-
 Currently, the only way that any code in our service gets executed is via a request from a client. However, we don’t
 want to require our clients to make *another* request to execute the publishing of their book! So how do we get our
 books published? We can accomplish this by starting a new thread to execute a `Runnable` that publishes a book. To
@@ -44,15 +42,12 @@ things simple for the sake of this project. To remove this limitation, we could 
 [SQS](https://aws.amazon.com/sqs/) or persisting the requests in a datastore like DynamoDB, but that’s out of scope for
 this project.
 
-Run the `rde wflow run tct-task4-publish` workflow to validate your changes, and send a CR to your project buddy. The
-title of the commit must begin with `[MT04]`.
+Run `MasteryTaskFourSubmitBookForPublishingTests` to validate your changes.
 
 **Milestone 2: Make BookPublishRequestQueue and BookPublishRequest thread safe**
 
-**Reviewer: Unit-4-Instructor-Reviewers**
-
 We now have a working `BookPublishTask` running which processes our `BookPublishRequest`s! Each request from a client
-to the Coral Framework is processed in its own thread, therefore we have multiple threads writing to the
+is processed in its own thread, therefore we have multiple threads writing to the
 `Queue` in our `BookPublishRequestManager`, and another thread reading from it in order to publish. Whenever multiple
 threads are accessing the same resource, you can have big trouble! You will want to think of ways to ensure that only
 one thread at a time is writing to or reading from the shared resource. This will ensure that `BookPublishRequest`s
@@ -80,17 +75,12 @@ about another thread’s write. Therefore another tool we have to write thread-s
 A `BookPublishRequest` will never be a resource shared by multiple threads, but let's practice using our immutability
 tool anyway. Update `BookPublishRequest` be immutable, and by doing so we'll prevent unintended subclassing!
 
-Run the `rde wflow run tct-task4` workflow to validate your changes, and send a CR to Unit-4-Instructor-Reviewers
-(TEAM). The title of the commit must begin with `[MT04]`.
+Run `MasteryTaskFourTests` workflow to validate your changes.
 
 **Exit checklist:**
 
 * You’ve implemented `BookPublishTask`, a `Runnable` which processes a request from the `BookPublishRequestManger` to
-publish a books to the catalog.
+  publish a books to the catalog.
 * You’ve updated `BookPublishRequestManger` and `BookPublishRequest` to make them thread safe.
 * You’ve added unit tests to cover your new code.
-* `rde wflow run tct-task4` passes
-* Your CR for `BookPublishTask` is approved by your project buddy and pushed.
-* Your CR for your thread-safe related changes to `BookPublishRequestManger` and `BookPublishTask`  is approved by
-Unit-4-Instructor-Reviewers and pushed.
-
+* `MasteryTaskFourTests` and `MasteryTaskFourSubmitBookForPublishingTests` pass

@@ -5,9 +5,7 @@ import java.util.Objects;
 public class RemoveBookFromCatalogRequest {
     private String bookId;
 
-    public RemoveBookFromCatalogRequest(String bookId) {
-        this.bookId = bookId;
-    }
+    public RemoveBookFromCatalogRequest() {}
 
     public String getBookId() {
         return bookId;

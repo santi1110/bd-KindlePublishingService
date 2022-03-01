@@ -6,7 +6,7 @@ The Amazon Kindle store provides millions of ebooks to our customers. The proces
 ebook to the Kindle catalog is currently an extremely manual process, which causes a long wait time
 to add a book to the catalog.
 
-This design document describes the Amazon Kindle Publishing Service, a new, native AWS Coral service
+This design document describes the Amazon Kindle Publishing Service, a new, native AWS service
 that will provide the ability to publish books to the Kindle catalog, access published Kindle books
 in the catalog, and remove published Kindle books from the catalog.
 
@@ -62,9 +62,7 @@ publishing status of a book publish request. We’ve also provided a DynamoDB mo
 thrown (as noted below):
     * `BookNotFoundException`
 
-Below are the endpoints required to provide the MLP business requirements. Each API is defined in
-the [Coral model package](https://code.amazon.com/packages/ATACurriculumKindlePublishingServiceModel/trees/mainline).
-
+Below are the endpoints required to provide the MLP business requirements.
 
 ### Kindle Catalog Versioning
 
@@ -161,7 +159,6 @@ RemoveBookFromCatalogResponse {
     publish request.
 * If the book submission is missing the `title`, `author`, `language`, `genre`, or `text`, a
     `ValidationException` will be thrown.
-* We have configured the API so that if the genre field is not from the [predefined set of genre values](https://code.amazon.com/packages/ATACurriculumKindlePublishingServiceModel/blobs/5eb6daa6c97dcd4a5abe68c0a7632b148b2d94ca/--/model/main.xml#L139),
 a `ValidationException` will be thrown. You do not have to account for this.
 
 ```
@@ -287,7 +284,7 @@ calls to these methods.
 
 ## Asynchronous Book Publishing
 
-When the Coral service starts up, we make a call to start our `BookPublisher`. This schedules a
+When the ECS service starts up, we make a call to start our `BookPublisher`. This schedules a
 `Runnable` to execute repeatedly while the service runs.
 
 We will have this `Runnable` retrieve a book publish request from `BookPublishRequestManager` and
