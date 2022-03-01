@@ -2,11 +2,13 @@ package com.amazon.ata.kindlepublishingservice.publishing;
 
 import java.util.Queue;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * The BookPublishRequestManager keeps a track of submitted BookPublishRequests, ensuring they are returned in the
  * order that they were submitted.
  */
+@Singleton
 public class BookPublishRequestManager {
 
     private Queue<BookPublishRequest> requestQueue;
