@@ -1,8 +1,10 @@
-package com.amazon.ata.kindlepublishingservice.mastery.two.submit;
+package com.amazon.ata.kindlepublishingservice.mastery.mt2;
 
 import com.amazon.ata.kindlepublishingservice.KindlePublishingClientException;
 import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingRequest;
 import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingResponse;
+import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
+import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.CatalogItemVersion;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.PublishingRecordStatus;
@@ -20,6 +22,8 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertThrows;
 
 public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestBase {
+
+    private static final ApplicationComponent COMPONENT = DaggerApplicationComponent.create();
 
     /**
      * Ensure the test infra is ready for test run, including creating the client.
@@ -41,9 +45,10 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
             .build();
 
         // WHEN
-        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
-            .newSubmitBookForPublishingCall()
-            .call(submitBookForPublishingRequest);
+        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
+//        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
+//            .newSubmitBookForPublishingCall()
+//            .call(submitBookForPublishingRequest);
 
         // THEN
         PublishingStatusItem key = new PublishingStatusItem();
@@ -75,9 +80,10 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
             .build();
 
         // WHEN
-        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
-            .newSubmitBookForPublishingCall()
-            .call(submitBookForPublishingRequest);
+        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
+//        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
+//            .newSubmitBookForPublishingCall()
+//            .call(submitBookForPublishingRequest);
 
         // THEN
         PublishingStatusItem key = new PublishingStatusItem();
@@ -107,9 +113,10 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
             .build();
 
         // WHEN
-        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
-            .newSubmitBookForPublishingCall()
-            .call(submitBookForPublishingRequest);
+        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
+//        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
+//            .newSubmitBookForPublishingCall()
+//            .call(submitBookForPublishingRequest);
 
       // THEN
         PublishingStatusItem key = new PublishingStatusItem();
@@ -138,8 +145,10 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
 
         // WHEN + THEN
         assertThrows(KindlePublishingClientException.class, () ->
-            super.kindlePublishingServiceClient.newSubmitBookForPublishingCall()
-                .call(submitBookForPublishingRequest));
+                COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null));
+//        assertThrows(KindlePublishingClientException.class, () ->
+//            super.kindlePublishingServiceClient.newSubmitBookForPublishingCall()
+//                .call(submitBookForPublishingRequest));
     }
 
     private CatalogItemVersion saveNewCatalogItemVersion(boolean inactive) {

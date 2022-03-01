@@ -1,31 +1,24 @@
-package com.amazon.ata.kindlepublishingservice.mastery.one;
+package com.amazon.ata.kindlepublishingservice.mastery.mt1;
 
 import com.amazon.ata.kindlepublishingservice.GetBookRequest;
 import com.amazon.ata.kindlepublishingservice.RemoveBookFromCatalogRequest;
+import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
+import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.exceptions.KindlePublishingClientException;
-
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
-import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.CatalogItemVersion;
 import com.amazon.ata.recommendationsservice.types.BookGenre;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertThrows;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class MasteryTaskOneTests extends IntegrationTestBase {
     private String bookId;
+    private static final ApplicationComponent COMPONENT = DaggerApplicationComponent.create();
 
-    private static final KindlePublishingServiceTctTestDao KINDLE_PUBLISHING_SERVICE_TCT_TEST_DAO =
-            new KindlePublishingServiceTctTestDao(
-                    new DynamoDBMapper(AmazonDynamoDBClientBuilder.standard().withRegion(Regions.US_WEST_2).build()));
     /**
      * Ensure the test infra is ready for test run, including creating the client.
      */
@@ -37,8 +30,6 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
     @BeforeMethod
     public void setupTest() {
         bookId = "MT01_RemoveBookTest_" + UUID.randomUUID();
-        // sysout because Hydra doesn't support log4j -> CloudWatch out of the box
-        // https://tiny.amazon.com/1hfswiy1t/wamazbinviewHydrFAQ
         System.out.println("Executing RemoveBook test with bookId " + bookId);
     }
 
@@ -59,8 +50,9 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
         removeBookFromCatalogRequest.setBookId(bookId);
 
         // WHEN
-        super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
-            .call(removeBookFromCatalogRequest);
+        COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null);
+//        super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
+//            .call(removeBookFromCatalogRequest);
 
         // THEN
         CatalogItemVersion result = super.getTestDao().load(catalogItemVersion);
@@ -95,8 +87,9 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
         removeBookFromCatalogRequest.setBookId(bookId);
 
         // WHEN we remove the catalog item
-        super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
-            .call(removeBookFromCatalogRequest);
+        COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null);
+//        super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
+//            .call(removeBookFromCatalogRequest);
 
         // THEN it should only update the second version
         CatalogItemVersion savedSecondVersion = super.getTestDao().load(secondVersion);
@@ -130,8 +123,10 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
 
         // WHEN + THEN
         assertThrows(KindlePublishingClientException.class, () ->
-            super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
-                .call(removeBookFromCatalogRequest));
+                COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null));
+//        assertThrows(KindlePublishingClientException.class, () ->
+//            super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
+//                .call(removeBookFromCatalogRequest));
     }
 
     @Test
@@ -142,14 +137,18 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
 
         // WHEN + THEN
         assertThrows(KindlePublishingClientException.class, () ->
-            super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
-                .call(removeBookFromCatalogRequest));
+                COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null));
+//        assertThrows(KindlePublishingClientException.class, () ->
+//            super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
+//                .call(removeBookFromCatalogRequest));
     }
 
     private void assertGetBookRequestThrowsKindlePublishingClientException() {
         GetBookRequest getBookRequest = new GetBookRequest();
         getBookRequest.setBookId(bookId);
         assertThrows(KindlePublishingClientException.class, () ->
-            super.kindlePublishingServiceClient.newGetBookCall().call(getBookRequest));
+                COMPONENT.provideGetBookActivity().handleRequest(getBookRequest, null));
+//        assertThrows(KindlePublishingClientException.class, () ->
+//            super.kindlePublishingServiceClient.newGetBookCall().call(getBookRequest));
     }
 }

@@ -22,22 +22,22 @@ public abstract class TctIntrospectionTest extends IntegrationTestBase {
      * @return a 2D Object Array - each Array has one object in it, a
      * {@link com.amazon.ata.test.tct.introspection.types.TctResult} object
      */
-    @DataProvider(name = "TctResults")
-    public Object[][] getTctResults() {
-        ExecuteTctSuiteCall executeTctSuiteCall = kindlePublishingServiceClient.newExecuteTctSuiteCall();
-
-        ExecuteTctSuiteRequest request = new ExecuteTctSuiteRequest(getTctSuiteId());
-
-        ExecuteTctSuiteResponse response = executeTctSuiteCall.call(request);
-        TctSuiteReport report = response.getTctSuiteReport();
-
-        Object[][] results = new Object[report.getTctResultList().size()][1];
-        for (int i = 0; i < report.getTctResultList().size(); i++) {
-            results[i][0] = report.getTctResultList().get(i);
-        }
-
-        return results;
-    }
+//    @DataProvider(name = "TctResults")
+//    public Object[][] getTctResults() {
+//        ExecuteTctSuiteCall executeTctSuiteCall = kindlePublishingServiceClient.newExecuteTctSuiteCall();
+//
+//        ExecuteTctSuiteRequest request = new ExecuteTctSuiteRequest(getTctSuiteId());
+//
+//        ExecuteTctSuiteResponse response = executeTctSuiteCall.call(request);
+//        TctSuiteReport report = response.getTctSuiteReport();
+//
+//        Object[][] results = new Object[report.getTctResultList().size()][1];
+//        for (int i = 0; i < report.getTctResultList().size(); i++) {
+//            results[i][0] = report.getTctResultList().get(i);
+//        }
+//
+//        return results;
+//    }
 
     /**
      * Returns the testSuiteId the test class would like to execute.
