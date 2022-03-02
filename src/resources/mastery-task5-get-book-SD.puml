@@ -15,7 +15,7 @@ GetBookActivity -> CatalogDao : getBookFromCatalog(bookId)
 CatalogDao -> DynamoDB : query for latest version of book
 alt if bookId does not exist or book is not active
     CatalogDao --> GetBookActivity : throw BookNotFoundException
-    GetBookActivity --> ecs : transform to KindlePublishingClientException
+    GetBookActivity --> ecs : pass exception
     ecs --> Client : 400 Response
 else else continue
 end

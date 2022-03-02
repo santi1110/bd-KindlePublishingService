@@ -2,24 +2,22 @@ package com.amazon.ata.kindlepublishingservice.mastery.mt3;
 
 import com.amazon.ata.kindlepublishingservice.GetPublishingStatusRequest;
 import com.amazon.ata.kindlepublishingservice.GetPublishingStatusResponse;
-import com.amazon.ata.kindlepublishingservice.KindlePublishingClientException;
 import com.amazon.ata.kindlepublishingservice.PublishingStatusRecord;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
+import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
+import com.amazon.ata.kindlepublishingservice.exceptions.PublishingStatusNotFoundException;
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.PublishingRecordStatus;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.PublishingStatusItem;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertThrows;
+import static org.testng.Assert.*;
 
 public class MasteryTaskThreeTests extends IntegrationTestBase {
     private static final String TCT_STATUS_MESSAGE = "TCT test data created by MasteryTaskThreeTests";
@@ -34,9 +32,8 @@ public class MasteryTaskThreeTests extends IntegrationTestBase {
     /**
      * Ensure the test infra is ready for test run, including creating the client.
      */
-    @BeforeClass
+    @BeforeEach
     public void setup() {
-        super.setup();
         savePublishingStatuses();
     }
 
@@ -49,8 +46,6 @@ public class MasteryTaskThreeTests extends IntegrationTestBase {
 
         // WHEN
         GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().handleRequest(request, null);
-//        GetPublishingStatusResponse response = super.kindlePublishingServiceClient
-//            .callGetPublishingStatus(request);
 
         // THEN
         assertNotNull(response.getPublishingStatusHistory(), "Expected a non null response from GetPublishingStatus");
@@ -96,14 +91,14 @@ public class MasteryTaskThreeTests extends IntegrationTestBase {
     }
 
     @Test
-    public void getPublishingStatus_noRecordForStatus_throwsKindlePublishingClientException() {
+    public void getPublishingStatus_noRecordForStatus_throwsPublishingStatusNotFoundException() {
         // GIVEN
         GetPublishingStatusRequest request = GetPublishingStatusRequest.builder()
             .withPublishingRecordId(NONEXISTENT_STATUS_RECORD_ID)
             .build();
 
         // WHEN + THEN
-        assertThrows(KindlePublishingClientException.class, () ->
+        assertThrows(PublishingStatusNotFoundException.class, () ->
                 COMPONENT.provideGetPublishingStatusActivity().handleRequest(request, null));
     }
 

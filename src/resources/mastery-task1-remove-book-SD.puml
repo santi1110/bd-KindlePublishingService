@@ -13,7 +13,7 @@ RemoveBookFromCatalogActivity -> CatalogDao : removeBookFromCatalog(bookId)
 CatalogDao -> DynamoDB : query for latest version of book
 alt if bookId does not exist or book is not active
     CatalogDao --> RemoveBookFromCatalogActivity : throw BookNotFoundException
-    RemoveBookFromCatalogActivity --> ecs : transform to KindlePublishingClientException
+    RemoveBookFromCatalogActivity --> ecs : pass exception
     ecs --> Client : 400 Response
 else else continue
 end

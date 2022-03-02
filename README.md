@@ -90,7 +90,5 @@ we send back a response. We still have work to do!
 
 ### [Mastery Task 4: Make a run(nable) for it](tasks/MasteryTask04.md)
 
-### [Mastery Task 5: Recommendations - a Cache Cow](tasks/MasteryTask05.md)
-
 &nbsp;
 
