@@ -2,6 +2,7 @@
 build
 .idea
 *.iml
+.env
 .classpath
 .settings
 annotation-generated-src
