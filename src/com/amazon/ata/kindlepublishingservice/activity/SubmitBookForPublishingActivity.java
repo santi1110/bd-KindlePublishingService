@@ -62,6 +62,8 @@ public class SubmitBookForPublishingActivity implements RequestHandler<SubmitBoo
 
         bookPublishRequestManager.addBookPublishRequest(bookPublishRequest);
 
+
+
         PublishingStatusItem item =  publishingStatusDao.setPublishingStatus(bookPublishRequest.getPublishingRecordId(),
             PublishingRecordStatus.QUEUED,
             bookPublishRequest.getBookId());

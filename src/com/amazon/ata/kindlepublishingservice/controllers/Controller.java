@@ -6,7 +6,6 @@ import com.amazon.ata.kindlepublishingservice.activity.GetPublishingStatusActivi
 import com.amazon.ata.kindlepublishingservice.activity.RemoveBookFromCatalogActivity;
 import com.amazon.ata.kindlepublishingservice.activity.SubmitBookForPublishingActivity;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
-import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import javax.validation.Valid;
 
 @RestController
 public class Controller {
-    private static final ApplicationComponent component = DaggerApplicationComponent.create();
+    private static final ApplicationComponent component = App.component;
 
     @GetMapping(value = "/publishing_status/{id}", produces = {"application/json"})
     public ResponseEntity<?> getPublishingStatus(@PathVariable String id) {
@@ -37,8 +36,8 @@ public class Controller {
         RemoveBookFromCatalogActivity removeBookFromCatalogActivity = component.provideRemoveBookFromCatalogActivity();
         RemoveBookFromCatalogRequest removeBookFromCatalogRequest = RemoveBookFromCatalogRequest.builder()
                 .withBookId(id).build();
-        RemoveBookFromCatalogResponse removeBookFromCatalogResponse = removeBookFromCatalogActivity.handleRequest(removeBookFromCatalogRequest, null);
-        return new ResponseEntity<>(removeBookFromCatalogResponse, HttpStatus.OK);
+        removeBookFromCatalogActivity.handleRequest(removeBookFromCatalogRequest, null);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/books", consumes = {"application/json"}, produces = {"application/json"})
