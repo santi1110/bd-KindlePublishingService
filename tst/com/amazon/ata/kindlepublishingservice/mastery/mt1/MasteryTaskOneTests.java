@@ -1,15 +1,15 @@
 package com.amazon.ata.kindlepublishingservice.mastery.mt1;
 
+import com.amazon.ata.kindlepublishingservice.App;
 import com.amazon.ata.kindlepublishingservice.GetBookRequest;
 import com.amazon.ata.kindlepublishingservice.RemoveBookFromCatalogRequest;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
-import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
-import com.amazon.ata.kindlepublishingservice.exceptions.KindlePublishingClientException;
+import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.CatalogItemVersion;
 import com.amazon.ata.recommendationsservice.types.BookGenre;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
@@ -17,7 +17,7 @@ import static org.testng.Assert.*;
 
 public class MasteryTaskOneTests extends IntegrationTestBase {
     private String bookId;
-    private static final ApplicationComponent COMPONENT = DaggerApplicationComponent.create();
+    private static final ApplicationComponent COMPONENT = App.component;
 
     /**
      * Ensure the test infra is ready for test run, including creating the client.
@@ -27,7 +27,7 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
 //        super.setup();
 //    }
 
-    @BeforeMethod
+    @BeforeEach
     public void setupTest() {
         bookId = "MT01_RemoveBookTest_" + UUID.randomUUID();
         System.out.println("Executing RemoveBook test with bookId " + bookId);
@@ -51,8 +51,6 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
 
         // WHEN
         COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null);
-//        super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
-//            .call(removeBookFromCatalogRequest);
 
         // THEN
         CatalogItemVersion result = super.getTestDao().load(catalogItemVersion);
@@ -62,7 +60,7 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
             catalogItemVersion.getBookId(),
             catalogItemVersion.getVersion(),
             result));
-        assertGetBookRequestThrowsKindlePublishingClientException();
+        assertGetBookRequestThrowsBookNotFoundException();
     }
 
     @Test
@@ -88,8 +86,6 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
 
         // WHEN we remove the catalog item
         COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null);
-//        super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
-//            .call(removeBookFromCatalogRequest);
 
         // THEN it should only update the second version
         CatalogItemVersion savedSecondVersion = super.getTestDao().load(secondVersion);
@@ -106,11 +102,11 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
             firstVersion.getBookId(),
             firstVersion.getVersion()));
 
-        assertGetBookRequestThrowsKindlePublishingClientException();
+        assertGetBookRequestThrowsBookNotFoundException();
     }
 
     @Test
-    public void removeBook_inactiveCatalogItem_throwsKindlePublishingClientException() {
+    public void removeBook_inactiveCatalogItem_throwsBookNotFoundException() {
         // GIVEN
         CatalogItemVersion catalogItemVersion = new CatalogItemVersion();
         catalogItemVersion.setBookId(bookId);
@@ -122,33 +118,25 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
         removeBookFromCatalogRequest.setBookId(bookId);
 
         // WHEN + THEN
-        assertThrows(KindlePublishingClientException.class, () ->
+        assertThrows(BookNotFoundException.class, () ->
                 COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null));
-//        assertThrows(KindlePublishingClientException.class, () ->
-//            super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
-//                .call(removeBookFromCatalogRequest));
     }
 
     @Test
-    public void removeBook_itemDoesNotExist_throwsKindlePublishingClientException() {
+    public void removeBook_itemDoesNotExist_throwsBookNotFoundException() {
         // GIVEN
         RemoveBookFromCatalogRequest removeBookFromCatalogRequest = new RemoveBookFromCatalogRequest();
         removeBookFromCatalogRequest.setBookId(UUID.randomUUID().toString());
 
         // WHEN + THEN
-        assertThrows(KindlePublishingClientException.class, () ->
+        assertThrows(BookNotFoundException.class, () ->
                 COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null));
-//        assertThrows(KindlePublishingClientException.class, () ->
-//            super.kindlePublishingServiceClient.newRemoveBookFromCatalogCall()
-//                .call(removeBookFromCatalogRequest));
     }
 
-    private void assertGetBookRequestThrowsKindlePublishingClientException() {
+    private void assertGetBookRequestThrowsBookNotFoundException() {
         GetBookRequest getBookRequest = new GetBookRequest();
         getBookRequest.setBookId(bookId);
-        assertThrows(KindlePublishingClientException.class, () ->
+        assertThrows(BookNotFoundException.class, () ->
                 COMPONENT.provideGetBookActivity().handleRequest(getBookRequest, null));
-//        assertThrows(KindlePublishingClientException.class, () ->
-//            super.kindlePublishingServiceClient.newGetBookCall().call(getBookRequest));
     }
 }

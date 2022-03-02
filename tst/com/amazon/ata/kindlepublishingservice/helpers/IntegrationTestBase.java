@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterEach;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
@@ -62,7 +63,7 @@ public abstract class IntegrationTestBase {
     /**
      * Clean up after all tests have run.
      */
-    @AfterSuite(alwaysRun = true)
+    @AfterEach
     public void teardown() {
         // this is only safe to run in the aftersuite when all tests have executed
         // otherwise we risk deleting parallel tests' data
