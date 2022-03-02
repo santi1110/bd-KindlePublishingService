@@ -1,18 +1,16 @@
 package com.amazon.ata.kindlepublishingservice.mastery.mt2;
 
-import com.amazon.ata.kindlepublishingservice.KindlePublishingClientException;
 import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingRequest;
 import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingResponse;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
+import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.CatalogItemVersion;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.PublishingRecordStatus;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.PublishingStatusItem;
-
 import com.amazon.ata.recommendationsservice.types.BookGenre;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
@@ -24,14 +22,6 @@ import static org.testng.Assert.assertThrows;
 public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestBase {
 
     private static final ApplicationComponent COMPONENT = DaggerApplicationComponent.create();
-
-    /**
-     * Ensure the test infra is ready for test run, including creating the client.
-     */
-    @BeforeClass
-    public void setup() {
-        super.setup();
-    }
 
     @Test
     public void submitBookForPublishing_noBookId_submitsBook() {
@@ -133,7 +123,7 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
             "publishing status record %s to have a non null status message.", publishingStatusRecord));    }
 
     @Test
-    public void submitBookForPublishing_bookIdThatDoesNotExist_throwsKindlePublishingClientException() {
+    public void submitBookForPublishing_bookIdThatDoesNotExist_throwsBookNotFoundException() {
         // GIVEN
         SubmitBookForPublishingRequest submitBookForPublishingRequest = SubmitBookForPublishingRequest.builder()
             .withAuthor("author")
@@ -144,11 +134,8 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
             .build();
 
         // WHEN + THEN
-        assertThrows(KindlePublishingClientException.class, () ->
+        assertThrows(BookNotFoundException.class, () ->
                 COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null));
-//        assertThrows(KindlePublishingClientException.class, () ->
-//            super.kindlePublishingServiceClient.newSubmitBookForPublishingCall()
-//                .call(submitBookForPublishingRequest));
     }
 
     private CatalogItemVersion saveNewCatalogItemVersion(boolean inactive) {

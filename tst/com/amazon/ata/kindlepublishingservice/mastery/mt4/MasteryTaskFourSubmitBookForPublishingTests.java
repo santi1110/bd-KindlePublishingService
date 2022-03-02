@@ -1,25 +1,22 @@
 package com.amazon.ata.kindlepublishingservice.mastery.mt4;
 
 import com.amazon.ata.kindlepublishingservice.*;
-
+import com.amazon.ata.kindlepublishingservice.dagger.ATAKindlePublishingServiceManager;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.CatalogItemVersion;
 import com.amazon.ata.kindlepublishingservice.helpers.SubmitBookForPublishingHelper;
-
 import com.amazon.ata.recommendationsservice.types.BookGenre;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTestBase {
     private static final Duration GET_EXPECTED_STATUS_BUFFER = Duration.ofMillis(500L);
@@ -29,9 +26,14 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
     /**
      * Ensure the test infra is ready for test run, including creating the client.
      */
-    @BeforeClass
+    @BeforeEach
     public void setup() {
-        super.setup();
+        ATAKindlePublishingServiceManager publishingManager = COMPONENT.provideATAKindlePublishingServiceManager();
+        try {
+            publishingManager.start();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     @Test
@@ -46,9 +48,6 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
 
         // WHEN
         SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(request, null);
-//        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
-//            .newSubmitBookForPublishingCall()
-//            .call(request);
 
         // THEN
         // wait for queued status
@@ -72,8 +71,6 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
             .build();
 
         GetBookResponse getBookResponse = COMPONENT.provideGetBookActivity().handleRequest(getBookRequest, null);
-//        GetBookResponse getBookResponse = super.kindlePublishingServiceClient
-//            .callGetBook(getBookRequest);
 
         Book book = getBookResponse.getBook();
         assertEquals(book.getAuthor(), request.getAuthor(), "Expected a successful book publish request" +
@@ -114,9 +111,6 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
 
         // WHEN
         SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(request, null);
-//        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
-//            .newSubmitBookForPublishingCall()
-//            .call(request);
 
         // THEN
         // wait for queued status
@@ -140,8 +134,6 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
             .build();
 
         GetBookResponse getBookResponse = COMPONENT.provideGetBookActivity().handleRequest(getBookRequest, null);
-//        GetBookResponse getBookResponse = super.kindlePublishingServiceClient
-//            .callGetBook(getBookRequest);
 
         Book book = getBookResponse.getBook();
         assertEquals(book.getAuthor(), request.getAuthor(), "Expected a successful book publish request" +
@@ -181,8 +173,6 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
             System.out.println(String.format("Attempt [%s]: Calling GetPublishingStatus", currentAttempt));
 
             GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().handleRequest(request, null);
-//            GetPublishingStatusResponse response = super.kindlePublishingServiceClient
-//                .callGetPublishingStatus(request);
 
             Optional<PublishingStatusRecord> record = response.getPublishingStatusHistory().stream()
                 .filter(p -> expectedStatus.equals(p.getStatus()))
