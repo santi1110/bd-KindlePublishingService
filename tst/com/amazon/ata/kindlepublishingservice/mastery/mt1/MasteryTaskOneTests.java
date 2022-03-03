@@ -1,8 +1,8 @@
 package com.amazon.ata.kindlepublishingservice.mastery.mt1;
 
 import com.amazon.ata.kindlepublishingservice.App;
-import com.amazon.ata.kindlepublishingservice.GetBookRequest;
-import com.amazon.ata.kindlepublishingservice.RemoveBookFromCatalogRequest;
+import com.amazon.ata.kindlepublishingservice.models.requests.GetBookRequest;
+import com.amazon.ata.kindlepublishingservice.models.requests.RemoveBookFromCatalogRequest;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
@@ -18,14 +18,6 @@ import static org.testng.Assert.*;
 public class MasteryTaskOneTests extends IntegrationTestBase {
     private String bookId;
     private static final ApplicationComponent COMPONENT = App.component;
-
-    /**
-     * Ensure the test infra is ready for test run, including creating the client.
-     */
-//    @BeforeClass
-//    public void setup() {
-//        super.setup();
-//    }
 
     @BeforeEach
     public void setupTest() {

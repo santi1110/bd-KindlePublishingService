@@ -77,29 +77,4 @@ public class PublishingStatusDao {
         dynamoDbMapper.save(item);
         return item;
     }
-
-    /**
-     * Returns the publishing status entries from the publishing status table for the given id. There will be one item
-     * for each status update.
-     *
-     * @param publishingRecordId Id associated the publishing statuses.
-     * @return The list of corresponding PublishingStatusItem records from the publishing status table.
-     */
-    public List<PublishingStatusItem> getPublishingStatuses(String publishingRecordId) {
-        PublishingStatusItem item = new PublishingStatusItem();
-        item.setPublishingRecordId(publishingRecordId);
-
-        DynamoDBQueryExpression<PublishingStatusItem> queryExpression = new DynamoDBQueryExpression()
-            .withHashKeyValues(item);
-
-        List<PublishingStatusItem> publishingStatuses = dynamoDbMapper.query(PublishingStatusItem.class,
-            queryExpression);
-
-        if (publishingStatuses.isEmpty()) {
-            throw new PublishingStatusNotFoundException(
-                String.format("No publishing status history found for id: %s", publishingRecordId));
-        }
-
-        return publishingStatuses;
-    }
 }

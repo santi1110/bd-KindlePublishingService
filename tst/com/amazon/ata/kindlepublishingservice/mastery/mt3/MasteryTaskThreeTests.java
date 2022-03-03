@@ -1,11 +1,10 @@
 package com.amazon.ata.kindlepublishingservice.mastery.mt3;
 
-import com.amazon.ata.kindlepublishingservice.GetPublishingStatusRequest;
-import com.amazon.ata.kindlepublishingservice.GetPublishingStatusResponse;
-import com.amazon.ata.kindlepublishingservice.PublishingStatusRecord;
+import com.amazon.ata.kindlepublishingservice.models.requests.GetPublishingStatusRequest;
+import com.amazon.ata.kindlepublishingservice.models.response.GetPublishingStatusResponse;
+import com.amazon.ata.kindlepublishingservice.models.PublishingStatusRecord;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
-import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
 import com.amazon.ata.kindlepublishingservice.exceptions.PublishingStatusNotFoundException;
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.PublishingRecordStatus;
@@ -68,8 +67,6 @@ public class MasteryTaskThreeTests extends IntegrationTestBase {
 
         // WHEN
         GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().handleRequest(request, null);
-//        GetPublishingStatusResponse response = super.kindlePublishingServiceClient
-//            .callGetPublishingStatus(request);
 
         // THEN
         assertNotNull(response.getPublishingStatusHistory(), "Expected a non null response from GetPublishingStatus");

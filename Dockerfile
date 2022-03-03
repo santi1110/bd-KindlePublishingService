@@ -8,5 +8,4 @@ COPY . ./
 RUN gradle bootJar
 
 EXPOSE 8080
-#ENTRYPOINT ["java","-jar","build/libs/KindlePublishingService.jar"]
 CMD ./entrypoint.sh

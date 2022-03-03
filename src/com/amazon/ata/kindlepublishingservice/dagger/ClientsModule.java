@@ -1,7 +1,5 @@
 package com.amazon.ata.kindlepublishingservice.dagger;
 
-import com.amazon.ata.kindlepublishingservice.clients.CachedRecommendationClient;
-import com.amazon.ata.kindlepublishingservice.clients.RecommendationClient;
 import com.amazon.ata.kindlepublishingservice.clients.RecommendationsServiceClient;
 //import com.amazon.ata.kindlepublishingservice.metrics.MetricsPublisher;
 import com.amazon.ata.recommendationsservice.RecommendationsService;
@@ -18,13 +16,6 @@ public class ClientsModule {
     @Provides
     public RecommendationsServiceClient provideRecommendationsServiceClient(
         RecommendationsService recommendationsService) {
-        return new RecommendationsServiceClient(recommendationsService);//, metricsPublisher);
-    }
-
-    @Singleton
-    @Provides
-    public RecommendationClient provideRecommendationClient(RecommendationsServiceClient recommendationsServiceClient)
-    {//MetricsPublisher metricsPublisher) {
-        return new CachedRecommendationClient(recommendationsServiceClient);
+        return new RecommendationsServiceClient(recommendationsService);
     }
 }

@@ -1,21 +1,14 @@
-package com.amazon.ata.kindlepublishingservice;
+package com.amazon.ata.kindlepublishingservice.models;
 
 import java.util.Objects;
 
-public class SubmitBookForPublishingRequest {
+public class Book {
     private String bookId;
     private String title;
     private String author;
     private String text;
     private String genre;
-
-    public SubmitBookForPublishingRequest(String bookId, String title, String author, String text, String genre) {
-        this.bookId = bookId;
-        this.title = title;
-        this.author = author;
-        this.text = text;
-        this.genre = genre;
-    }
+    private int version;
 
     public String getBookId() {
         return bookId;
@@ -57,40 +50,59 @@ public class SubmitBookForPublishingRequest {
         this.genre = genre;
     }
 
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public Book(String bookId, String title, String author, String text, String genre, int version) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.text = text;
+        this.genre = genre;
+        this.version = version;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SubmitBookForPublishingRequest that = (SubmitBookForPublishingRequest) o;
-        return Objects.equals(bookId, that.bookId) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(author, that.author) &&
-                Objects.equals(text, that.text) &&
-                genre == that.genre;
+        Book book = (Book) o;
+        return version == book.version &&
+                Objects.equals(bookId, book.bookId) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(text, book.text) &&
+                genre == book.genre;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, title, author, text, genre);
+        return Objects.hash(bookId, title, author, text, genre, version);
     }
 
-    public SubmitBookForPublishingRequest(Builder builder) {
+    public static Builder builder() {return new Builder();}
+
+    public Book(Builder builder) {
         this.bookId = builder.bookId;
         this.title = builder.title;
         this.author = builder.author;
         this.text = builder.text;
         this.genre = builder.genre;
+        this.version = builder.version;
     }
 
-    public static Builder builder() {return new Builder();}
-
     public static final class Builder {
-
         private String bookId;
         private String title;
         private String author;
         private String text;
         private String genre;
+        private int version;
 
         private Builder() {
 
@@ -121,6 +133,11 @@ public class SubmitBookForPublishingRequest {
             return this;
         }
 
-        public SubmitBookForPublishingRequest build() { return new SubmitBookForPublishingRequest(this); }
+        public Builder withVersion(int versionToUse) {
+            this.version = versionToUse;
+            return this;
+        }
+
+        public Book build() { return new Book(this); }
     }
 }

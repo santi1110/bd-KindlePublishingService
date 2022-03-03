@@ -1,6 +1,4 @@
-package com.amazon.ata.kindlepublishingservice;
-
-import com.amazon.ata.kindlepublishingservice.enums.PublishingRecordStatus;
+package com.amazon.ata.kindlepublishingservice.models;
 
 import java.util.Objects;
 

@@ -1,4 +1,6 @@
-package com.amazon.ata.kindlepublishingservice;
+package com.amazon.ata.kindlepublishingservice.models.response;
+
+import com.amazon.ata.kindlepublishingservice.models.PublishingStatusRecord;
 
 import java.util.List;
 import java.util.Objects;

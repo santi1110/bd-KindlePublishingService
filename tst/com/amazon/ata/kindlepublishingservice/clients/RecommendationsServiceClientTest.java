@@ -29,9 +29,6 @@ public class RecommendationsServiceClientTest {
 
     @Mock
     private RecommendationsService recommendationsService;
-//
-//    @Mock
-//    private MetricsPublisher metricsPublisher;
 
     @InjectMocks
     private RecommendationsServiceClient recommendationsServiceClient;
@@ -56,10 +53,6 @@ public class RecommendationsServiceClientTest {
 
         // THEN
         assertEquals(bookRecommendations, result, "Expected result to match value returned by RecommendationsService");
-//        verify(metricsPublisher).addTime(eq(MetricsConstants.GET_BOOK_RECOMMENDATIONS_TIME),
-//            anyDouble(), any(Unit.class));
-//        verify(metricsPublisher).addCount(eq(MetricsConstants.GET_BOOK_RECOMMENDATIONS_COUNT),
-//            anyDouble(), any(Unit.class));
     }
 
     @Test
@@ -72,10 +65,5 @@ public class RecommendationsServiceClientTest {
 
         // THEN
         assertEquals(0, result.size(), "Expected result to be empty.");
-//        verify(metricsPublisher).addTime(eq(MetricsConstants.GET_BOOK_RECOMMENDATIONS_TIME),
-//            anyDouble(), any(Unit.class));
-//        verify(metricsPublisher).addCount(eq(MetricsConstants.GET_BOOK_RECOMMENDATIONS_COUNT),
-//            anyDouble(), any(Unit.class));
     }
-
 }

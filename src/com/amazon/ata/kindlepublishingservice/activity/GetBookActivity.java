@@ -1,10 +1,10 @@
 package com.amazon.ata.kindlepublishingservice.activity;
 
+import com.amazon.ata.kindlepublishingservice.clients.RecommendationsServiceClient;
+import com.amazon.ata.kindlepublishingservice.converters.CatalogItemConverter;
 import com.amazon.ata.recommendationsservice.types.BookGenre;
-import com.amazon.ata.kindlepublishingservice.GetBookRequest;
-import com.amazon.ata.kindlepublishingservice.GetBookResponse;
-import com.amazon.ata.kindlepublishingservice.clients.RecommendationClient;
-import com.amazon.ata.kindlepublishingservice.converters.CatalogCoralConverter;
+import com.amazon.ata.kindlepublishingservice.models.requests.GetBookRequest;
+import com.amazon.ata.kindlepublishingservice.models.response.GetBookResponse;
 import com.amazon.ata.kindlepublishingservice.converters.RecommendationsCoralConverter;
 import com.amazon.ata.kindlepublishingservice.dao.CatalogDao;
 import com.amazon.ata.kindlepublishingservice.dynamodb.models.CatalogItemVersion;
@@ -23,19 +23,19 @@ import javax.inject.Inject;
  */
 
 public class GetBookActivity implements RequestHandler<GetBookRequest, GetBookResponse> {
-    private RecommendationClient recommendationClient;
+    private RecommendationsServiceClient recommendationServiceClient;
     private CatalogDao catalogDao;
 
     /**
      * Instantiates a new GetBookActivity object.
      *
      * @param catalogDao CatalogDao to access the Catalog table.
-     * @param recommendationClient Returns recommendations based on genre.
+     * @param recommendationServiceClient Returns recommendations based on genre.
      */
     @Inject
-    public GetBookActivity(CatalogDao catalogDao, RecommendationClient recommendationClient) {
+    public GetBookActivity(CatalogDao catalogDao, RecommendationsServiceClient recommendationServiceClient) {
         this.catalogDao = catalogDao;
-        this.recommendationClient = recommendationClient;
+        this.recommendationServiceClient = recommendationServiceClient;
     }
 
     /**
@@ -46,11 +46,11 @@ public class GetBookActivity implements RequestHandler<GetBookRequest, GetBookRe
      */
 
     public GetBookResponse handleRequest(final GetBookRequest request, Context context) {
-        CatalogItemVersion book = catalogDao.getBookFromCatalog(request.getBookId());
-        List<BookRecommendation> recommendations = recommendationClient.getBookRecommendations(
-            BookGenre.valueOf(book.getGenre().name()));
+        CatalogItemVersion catalogItem = catalogDao.getBookFromCatalog(request.getBookId());
+        List<BookRecommendation> recommendations = recommendationServiceClient.getBookRecommendations(
+            BookGenre.valueOf(catalogItem.getGenre().name()));
         return GetBookResponse.builder()
-            .withBook(CatalogCoralConverter.toCoral(book))
+            .withBook(CatalogItemConverter.toBook(catalogItem))
             .withRecommendations(RecommendationsCoralConverter.toCoral(recommendations))
             .build();
     }

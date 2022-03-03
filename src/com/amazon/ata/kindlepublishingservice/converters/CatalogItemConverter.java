@@ -1,14 +1,14 @@
 package com.amazon.ata.kindlepublishingservice.converters;
 
-import com.amazon.ata.kindlepublishingservice.Book;
+import com.amazon.ata.kindlepublishingservice.models.Book;
 import com.amazon.ata.kindlepublishingservice.dynamodb.models.CatalogItemVersion;
 
 /**
  * Converters for Catalog related objects.
  */
-public class CatalogCoralConverter {
+public class CatalogItemConverter {
 
-    private CatalogCoralConverter() {}
+    private CatalogItemConverter() {}
 
     /**
      * Converts the given {@link CatalogItemVersion} object into the corresponding Coral Book object.
@@ -16,7 +16,7 @@ public class CatalogCoralConverter {
      * @param catalogItem CatalogItem item to convert.
      * @return Book Coral Book object.
      */
-    public static Book toCoral(CatalogItemVersion catalogItem) {
+    public static Book toBook(CatalogItemVersion catalogItem) {
         return Book.builder()
             .withBookId(catalogItem.getBookId())
             .withVersion(catalogItem.getVersion())

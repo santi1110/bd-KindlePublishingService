@@ -1,12 +1,18 @@
 package com.amazon.ata.kindlepublishingservice.mastery.mt4;
 
-import com.amazon.ata.kindlepublishingservice.*;
 import com.amazon.ata.kindlepublishingservice.dagger.ATAKindlePublishingServiceManager;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.helpers.IntegrationTestBase;
 import com.amazon.ata.kindlepublishingservice.helpers.KindlePublishingServiceTctTestDao.CatalogItemVersion;
 import com.amazon.ata.kindlepublishingservice.helpers.SubmitBookForPublishingHelper;
+import com.amazon.ata.kindlepublishingservice.models.*;
+import com.amazon.ata.kindlepublishingservice.models.requests.GetBookRequest;
+import com.amazon.ata.kindlepublishingservice.models.requests.GetPublishingStatusRequest;
+import com.amazon.ata.kindlepublishingservice.models.requests.SubmitBookForPublishingRequest;
+import com.amazon.ata.kindlepublishingservice.models.response.GetBookResponse;
+import com.amazon.ata.kindlepublishingservice.models.response.GetPublishingStatusResponse;
+import com.amazon.ata.kindlepublishingservice.models.response.SubmitBookForPublishingResponse;
 import com.amazon.ata.recommendationsservice.types.BookGenre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.amazon.ata.kindlepublishingservice;
+package com.amazon.ata.kindlepublishingservice.models;
 
 public class PublishingStatus {
     public static final String QUEUED = "QUEUED";

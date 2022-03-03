@@ -1,4 +1,4 @@
-package com.amazon.ata.kindlepublishingservice;
+package com.amazon.ata.kindlepublishingservice.models;
 
 import java.util.Objects;
 

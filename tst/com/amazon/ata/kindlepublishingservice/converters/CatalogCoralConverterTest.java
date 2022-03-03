@@ -1,7 +1,7 @@
 package com.amazon.ata.kindlepublishingservice.converters;
 
 import com.amazon.ata.recommendationsservice.types.BookGenre;
-import com.amazon.ata.kindlepublishingservice.Book;
+import com.amazon.ata.kindlepublishingservice.models.Book;
 import com.amazon.ata.kindlepublishingservice.dynamodb.models.CatalogItemVersion;
 
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class CatalogCoralConverterTest {
         item.setAuthor("Author");
 
         // WHEN
-        Book book = CatalogCoralConverter.toCoral(item);
+        Book book = CatalogItemConverter.toBook(item);
 
         // THEN
         assertEquals(item.getBookId(), book.getBookId(), "Book Id field not converted properly.");

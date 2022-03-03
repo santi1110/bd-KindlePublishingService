@@ -1,9 +1,11 @@
-package com.amazon.ata.kindlepublishingservice;
+package com.amazon.ata.kindlepublishingservice.models.requests;
 
 import java.util.Objects;
 
-public class GetBookRequest {
+public class RemoveBookFromCatalogRequest {
     private String bookId;
+
+    public RemoveBookFromCatalogRequest() {}
 
     public String getBookId() {
         return bookId;
@@ -13,23 +15,21 @@ public class GetBookRequest {
         this.bookId = bookId;
     }
 
-    public GetBookRequest() {}
-
-    public GetBookRequest(Builder builder) {
-        this.bookId = builder.bookId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GetBookRequest that = (GetBookRequest) o;
+        RemoveBookFromCatalogRequest that = (RemoveBookFromCatalogRequest) o;
         return Objects.equals(bookId, that.bookId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(bookId);
+    }
+
+    public RemoveBookFromCatalogRequest(Builder builder) {
+        this.bookId = builder.bookId;
     }
 
     public static Builder builder() {return new Builder();}
@@ -46,6 +46,6 @@ public class GetBookRequest {
             return this;
         }
 
-        public GetBookRequest build() { return new GetBookRequest(this); }
+        public RemoveBookFromCatalogRequest build() { return new RemoveBookFromCatalogRequest(this); }
     }
 }

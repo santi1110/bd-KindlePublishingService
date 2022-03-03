@@ -13,10 +13,9 @@ import javax.inject.Inject;
 /**
  * Client used to call Recommendations Service.
  */
-public class RecommendationsServiceClient implements RecommendationClient {
+public class RecommendationsServiceClient {
 
     private final RecommendationsService recommendationsService;
-    //private final MetricsPublisher metricsPublisher;
 
     /**
      * Instantiates a new RecommendationsServiceClient.
@@ -26,7 +25,6 @@ public class RecommendationsServiceClient implements RecommendationClient {
     @Inject
     public RecommendationsServiceClient(RecommendationsService service) {
         this.recommendationsService = service;
-//        this.metricsPublisher = metricsPublisher;
     }
 
     /**
@@ -35,7 +33,6 @@ public class RecommendationsServiceClient implements RecommendationClient {
      * @param genre genre to get recommendations for.
      * @return list of book recommendations.
      */
-    @Override
     public List<BookRecommendation> getBookRecommendations(BookGenre genre) {
         final double startTime = System.currentTimeMillis();
 
@@ -43,8 +40,6 @@ public class RecommendationsServiceClient implements RecommendationClient {
             BookGenre.valueOf(genre.name()));
 
         final double endTime = System.currentTimeMillis() - startTime;
-        //metricsPublisher.addTime(MetricsConstants.GET_BOOK_RECOMMENDATIONS_TIME, endTime, SI.MILLI(SI.SECOND));
-        //metricsPublisher.addCount(MetricsConstants.GET_BOOK_RECOMMENDATIONS_COUNT, 1, Unit.One);
 
         return recommendations;
     }

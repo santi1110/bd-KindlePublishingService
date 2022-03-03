@@ -17,7 +17,6 @@ public class ATAKindlePublishingServiceManager {
 
     private static final Logger log = LogManager.getLogger(ATAKindlePublishingServiceManager.class);
 
-    //private final BobcatServer bobcatServer;
     private final BookPublisher bookPublisher;
 
     /**
@@ -26,7 +25,6 @@ public class ATAKindlePublishingServiceManager {
      */
     @Inject
     ATAKindlePublishingServiceManager(BookPublisher bookPublisher) {
-
         this.bookPublisher = bookPublisher;
     }
 
@@ -37,12 +35,10 @@ public class ATAKindlePublishingServiceManager {
     }
 
     public void start() throws Exception {
-
         bookPublisher.start();
     }
 
     public void stop() throws Exception {
-
         bookPublisher.stop();
     }
 }

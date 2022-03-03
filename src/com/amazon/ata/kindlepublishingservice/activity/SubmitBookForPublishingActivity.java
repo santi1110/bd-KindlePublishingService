@@ -1,14 +1,13 @@
 package com.amazon.ata.kindlepublishingservice.activity;
 
-import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingRequest;
-import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingResponse;
+import com.amazon.ata.kindlepublishingservice.models.requests.SubmitBookForPublishingRequest;
+import com.amazon.ata.kindlepublishingservice.models.response.SubmitBookForPublishingResponse;
 import com.amazon.ata.kindlepublishingservice.converters.BookPublishRequestConverter;
 import com.amazon.ata.kindlepublishingservice.dao.CatalogDao;
 import com.amazon.ata.kindlepublishingservice.dao.PublishingStatusDao;
 import com.amazon.ata.kindlepublishingservice.dynamodb.models.PublishingStatusItem;
 import com.amazon.ata.kindlepublishingservice.enums.PublishingRecordStatus;
 import com.amazon.ata.kindlepublishingservice.publishing.BookPublishRequest;
-import com.amazon.ata.kindlepublishingservice.publishing.BookPublishRequestManager;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -25,23 +24,15 @@ import javax.inject.Inject;
 public class SubmitBookForPublishingActivity implements RequestHandler<SubmitBookForPublishingRequest, SubmitBookForPublishingResponse> {
 
     private PublishingStatusDao publishingStatusDao;
-    private CatalogDao catalogDao;
-    private BookPublishRequestManager bookPublishRequestManager;
 
     /**
      * Instantiates a new SubmitBookForPublishingActivity object.
      *
      * @param publishingStatusDao PublishingStatusDao to access the publishing status table.
-     * @param catalogDao CatalogDao to access the book catalog table.
-     * @param bookPublishRequestManager for managing books to publish
      */
     @Inject
-    public SubmitBookForPublishingActivity(PublishingStatusDao publishingStatusDao,
-                                           CatalogDao catalogDao,
-                                           BookPublishRequestManager bookPublishRequestManager) {
+    public SubmitBookForPublishingActivity(PublishingStatusDao publishingStatusDao) {
         this.publishingStatusDao = publishingStatusDao;
-        this.catalogDao = catalogDao;
-        this.bookPublishRequestManager = bookPublishRequestManager;
     }
 
     /**
@@ -54,22 +45,17 @@ public class SubmitBookForPublishingActivity implements RequestHandler<SubmitBoo
      * to check the publishing state of the book.
      */
     public SubmitBookForPublishingResponse handleRequest(SubmitBookForPublishingRequest request, Context context) {
-        if (!StringUtils.isEmpty(request.getBookId())) {
-            catalogDao.validateBookExists(request.getBookId());
-        }
-
         final BookPublishRequest bookPublishRequest = BookPublishRequestConverter.toBookPublishRequest(request);
 
-        bookPublishRequestManager.addBookPublishRequest(bookPublishRequest);
-
-
+        // TODO: If there is a book ID in the request, validate it exists in our catalog
+        // TODO: Submit the BookPublishRequest for processing
 
         PublishingStatusItem item =  publishingStatusDao.setPublishingStatus(bookPublishRequest.getPublishingRecordId(),
-            PublishingRecordStatus.QUEUED,
-            bookPublishRequest.getBookId());
+                PublishingRecordStatus.QUEUED,
+                bookPublishRequest.getBookId());
 
         return SubmitBookForPublishingResponse.builder()
-            .withPublishingRecordId(item.getPublishingRecordId())
-            .build();
+                .withPublishingRecordId(item.getPublishingRecordId())
+                .build();
     }
 }

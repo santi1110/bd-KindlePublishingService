@@ -31,9 +31,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class PublishingStatusDaoTest {
 
     @Mock
-    private PaginatedQueryList<CatalogItemVersion> list;
-
-    @Mock
     private DynamoDBMapper dynamoDbMapper;
 
     @InjectMocks
@@ -45,64 +42,21 @@ public class PublishingStatusDaoTest {
     }
 
     @Test
-    public void getPublishingStatuses_publishingRecordIdDoesNotExist_exceptionThrown() {
-        // GIVEN
-        String invalidId = "invalid";
-        PublishingStatusItem item = new PublishingStatusItem();
-        item.setPublishingRecordId(invalidId);
-        ArgumentCaptor<DynamoDBQueryExpression> requestCaptor = ArgumentCaptor.forClass(DynamoDBQueryExpression.class);
-
-        when(dynamoDbMapper.query(eq(PublishingStatusItem.class), any(DynamoDBQueryExpression.class))).thenReturn(list);
-        when(list.isEmpty()).thenReturn(true);
-
-        // WHEN && THEN
-        assertThrows(PublishingStatusNotFoundException.class,
-            () -> publishingStatusDao.getPublishingStatuses(invalidId),
-            "Expected BookNotFoundException to be thrown for an invalid bookId.");
-        verify(dynamoDbMapper).query(eq(PublishingStatusItem.class), requestCaptor.capture());
-        PublishingStatusItem queriedItem = (PublishingStatusItem) requestCaptor.getValue().getHashKeyValues();
-        assertEquals(invalidId, queriedItem.getPublishingRecordId());
-    }
-
-    @Test
-    public void getPublishingStatuses_publishingRecordIdExists_statusesReturned() {
-        // GIVEN
-        String publishingId = "publishingstatus.123";
-        PublishingStatusItem item = new PublishingStatusItem();
-        item.setPublishingRecordId(publishingId);
-        ArgumentCaptor<DynamoDBQueryExpression> requestCaptor = ArgumentCaptor.forClass(DynamoDBQueryExpression.class);
-
-        when(dynamoDbMapper.query(eq(PublishingStatusItem.class), any(DynamoDBQueryExpression.class))).thenReturn(list);
-        when(list.isEmpty()).thenReturn(false);
-
-        // WHEN
-        List<PublishingStatusItem> statuses = publishingStatusDao.getPublishingStatuses(publishingId);
-
-        // THEN
-        assertEquals(list, statuses, "Expected method to return the publishing status list " +
-            "from the datastore.");
-
-        verify(dynamoDbMapper).query(eq(PublishingStatusItem.class), requestCaptor.capture());
-        PublishingStatusItem queriedItem = (PublishingStatusItem) requestCaptor.getValue().getHashKeyValues();
-        assertEquals(publishingId, queriedItem.getPublishingRecordId());
-    }
-
-    @Test
-    public void setPublishingStatus_successful_bookIdPresent() {
+    public void setPublishingStatus2_successful_bookIdPresent() {
         // GIVEN
         String publishingId = "publishingstatus.123";
         String bookId = "book.123";
 
         // WHEN
         PublishingStatusItem status = publishingStatusDao.setPublishingStatus(publishingId,
-            PublishingRecordStatus.SUCCESSFUL, bookId);
+                PublishingRecordStatus.SUCCESSFUL, bookId);
 
         // THEN
         verify(dynamoDbMapper).save(any(PublishingStatusItem.class));
         assertEquals(publishingId, status.getPublishingRecordId(), "Expected saved status to have the " +
-            "correct publishing status id.");
+                "correct publishing status id.");
         assertEquals(PublishingRecordStatus.SUCCESSFUL, status.getStatus(), "Expected saved status to have" +
-            " the correct publishing status.");
+                " the correct publishing status.");
         assertNotNull(status.getBookId(), "BookId should be present for successfully published book.");
         assertNotNull(status.getStatusMessage() , "Each status record should have a message.");
     }
@@ -114,14 +68,14 @@ public class PublishingStatusDaoTest {
 
         // WHEN
         PublishingStatusItem status = publishingStatusDao.setPublishingStatus(publishingId,
-            PublishingRecordStatus.QUEUED, null);
+                PublishingRecordStatus.QUEUED, null);
 
         // THEN
         verify(dynamoDbMapper).save(any(PublishingStatusItem.class));
         assertEquals(publishingId, status.getPublishingRecordId(), "Expected saved status to have the " +
-            "correct publishing status id.");
+                "correct publishing status id.");
         assertEquals(PublishingRecordStatus.QUEUED, status.getStatus(), "Expected saved status to have" +
-            " the correct publishing status.");
+                " the correct publishing status.");
         assertNotNull(status.getStatusMessage() , "Each status record should have a message.");
         assertNull(status.getBookId(), "Expected bookId to be null in the status, when a bookId is not provided.");
     }
@@ -134,18 +88,18 @@ public class PublishingStatusDaoTest {
 
         // WHEN
         PublishingStatusItem status = publishingStatusDao.setPublishingStatus(publishingId,
-            PublishingRecordStatus.FAILED, bookId, "Failed due to...");
+                PublishingRecordStatus.FAILED, bookId, "Failed due to...");
 
         // THEN
         verify(dynamoDbMapper).save(any(PublishingStatusItem.class));
         assertEquals(publishingId, status.getPublishingRecordId(), "Expected saved status to have the " +
-            "correct publishing status id.");
+                "correct publishing status id.");
         assertEquals(PublishingRecordStatus.FAILED, status.getStatus(), "Expected saved status to have" +
-            " the correct publishing status.");
+                " the correct publishing status.");
         assertNotNull(status.getStatusMessage() , "Each status record should have a message.");
         assertTrue(status.getStatusMessage().contains("Additional Notes"), "If a message is provided it should be" +
-            "included in the status message as 'Additional Notes'");
+                "included in the status message as 'Additional Notes'");
         assertTrue(status.getStatusMessage().contains("Failed due to..."), "If a message is provided it should be" +
-            "included in the status message.");
+                "included in the status message.");
     }
 }

@@ -1,9 +1,9 @@
 package com.amazon.ata.kindlepublishingservice.activity;
 
 import com.amazon.ata.recommendationsservice.types.BookGenre;
-import com.amazon.ata.kindlepublishingservice.Book;
-import com.amazon.ata.kindlepublishingservice.GetBookRequest;
-import com.amazon.ata.kindlepublishingservice.GetBookResponse;
+import com.amazon.ata.kindlepublishingservice.models.Book;
+import com.amazon.ata.kindlepublishingservice.models.requests.GetBookRequest;
+import com.amazon.ata.kindlepublishingservice.models.response.GetBookResponse;
 import com.amazon.ata.kindlepublishingservice.clients.RecommendationsServiceClient;
 import com.amazon.ata.kindlepublishingservice.dao.CatalogDao;
 import com.amazon.ata.kindlepublishingservice.dynamodb.models.CatalogItemVersion;
@@ -46,12 +46,12 @@ public class GetBookActivityTest {
     }
 
     @Test
-    public void execute_bookExists_returnsBook() {
+    public void handleRequest_bookExists_returnsBook() {
         // GIVEN
         GetBookRequest request = GetBookRequest
-            .builder()
-            .withBookId(BOOK_ID)
-            .build();
+                .builder()
+                .withBookId(BOOK_ID)
+                .build();
 
         CatalogItemVersion catalogItem = new CatalogItemVersion();
         catalogItem.setVersion(1);
@@ -74,21 +74,21 @@ public class GetBookActivityTest {
         assertEquals(BOOK_ID, book.getBookId(), "Expected book in response to contain id passed in request.");
         assertNotNull(response.getRecommendations(), "Expected non null book recommendations in the response.");
         assertEquals(TITLE, response.getRecommendations().get(0).getTitle(), "Expected recommendations in the " +
-            "response to match recommendations returned by recommendations service.");
+                "response to match recommendations returned by recommendations service.");
     }
 
     @Test
-    public void execute_bookDoesNotExist_throwsException() {
+    public void handleRequest_bookDoesNotExist_throwsException() {
         // GIVEN
         GetBookRequest request = GetBookRequest
-            .builder()
-            .withBookId("notAbook.123")
-            .build();
+                .builder()
+                .withBookId("notAbook.123")
+                .build();
 
         when(catalogDao.getBookFromCatalog("notAbook.123")).thenThrow(new BookNotFoundException("No book found"));
 
         // WHEN & THEN
         assertThrows(BookNotFoundException.class, () -> activity.handleRequest(request, null), "Expected activity to " +
-            "throw an exception if the book can't be found.");
+                "throw an exception if the book can't be found.");
     }
 }

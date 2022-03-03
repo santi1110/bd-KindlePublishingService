@@ -1,7 +1,7 @@
 package com.amazon.ata.kindlepublishingservice.mastery.mt2;
 
-import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingRequest;
-import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingResponse;
+import com.amazon.ata.kindlepublishingservice.models.requests.SubmitBookForPublishingRequest;
+import com.amazon.ata.kindlepublishingservice.models.response.SubmitBookForPublishingResponse;
 import com.amazon.ata.kindlepublishingservice.dagger.ApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.dagger.DaggerApplicationComponent;
 import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
@@ -36,9 +36,6 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
 
         // WHEN
         SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
-//        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
-//            .newSubmitBookForPublishingCall()
-//            .call(submitBookForPublishingRequest);
 
         // THEN
         PublishingStatusItem key = new PublishingStatusItem();
@@ -71,9 +68,6 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
 
         // WHEN
         SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
-//        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
-//            .newSubmitBookForPublishingCall()
-//            .call(submitBookForPublishingRequest);
 
         // THEN
         PublishingStatusItem key = new PublishingStatusItem();
@@ -104,9 +98,6 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
 
         // WHEN
         SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
-//        SubmitBookForPublishingResponse response = super.kindlePublishingServiceClient
-//            .newSubmitBookForPublishingCall()
-//            .call(submitBookForPublishingRequest);
 
       // THEN
         PublishingStatusItem key = new PublishingStatusItem();

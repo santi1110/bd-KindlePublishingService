@@ -1,6 +1,6 @@
 package com.amazon.ata.kindlepublishingservice.converters;
 
-import com.amazon.ata.kindlepublishingservice.SubmitBookForPublishingRequest;
+import com.amazon.ata.kindlepublishingservice.models.requests.SubmitBookForPublishingRequest;
 import com.amazon.ata.kindlepublishingservice.publishing.BookPublishRequest;
 
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.amazon.ata.kindlepublishingservice.converters;
 
 import com.amazon.ata.coral.converter.CoralConverterUtil;
-import com.amazon.ata.kindlepublishingservice.BookRecommendation;
+import com.amazon.ata.kindlepublishingservice.models.BookRecommendation;
 
 import java.util.List;
 
