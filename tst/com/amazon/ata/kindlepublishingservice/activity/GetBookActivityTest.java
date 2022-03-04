@@ -46,7 +46,7 @@ public class GetBookActivityTest {
     }
 
     @Test
-    public void handleRequest_bookExists_returnsBook() {
+    public void execute_bookExists_returnsBook() {
         // GIVEN
         GetBookRequest request = GetBookRequest
                 .builder()
@@ -65,7 +65,7 @@ public class GetBookActivityTest {
         when(catalogDao.getBookFromCatalog(BOOK_ID)).thenReturn(catalogItem);
 
         // WHEN
-        GetBookResponse response = activity.handleRequest(request, null);
+        GetBookResponse response = activity.execute(request);
 
         // THEN
         assertNotNull(response, "Expected request to return a non-null response.");
@@ -78,7 +78,7 @@ public class GetBookActivityTest {
     }
 
     @Test
-    public void handleRequest_bookDoesNotExist_throwsException() {
+    public void execute_bookDoesNotExist_throwsException() {
         // GIVEN
         GetBookRequest request = GetBookRequest
                 .builder()
@@ -88,7 +88,7 @@ public class GetBookActivityTest {
         when(catalogDao.getBookFromCatalog("notAbook.123")).thenThrow(new BookNotFoundException("No book found"));
 
         // WHEN & THEN
-        assertThrows(BookNotFoundException.class, () -> activity.handleRequest(request, null), "Expected activity to " +
+        assertThrows(BookNotFoundException.class, () -> activity.execute(request), "Expected activity to " +
                 "throw an exception if the book can't be found.");
     }
 }

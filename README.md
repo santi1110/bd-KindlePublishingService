@@ -1,12 +1,5 @@
 # Unit 6 Project: Kindle Publishing Service
 
-## Preliminaries: The More Things Change
-
-In Unit 6, we'll start in a similar place to Unit 4, creating a lot from scratch and working though
-a design document.
-
-This project is gonna be LIT(erary)!
-
 ### Ambiguity, Complexity, and Scope
 
 Ambiguity will be increasing from Unit 4’s project as you make your way through the Unit 6 project
@@ -26,18 +19,6 @@ you'll be responsible for writing the Activity classes as well.
 You'll be surrounded by other participants in the same situation as you, so remember to collaborate:
 rely on each other for assistance, and share your own knowledge.
 
-## Unit 6 Project Progress and Tracking
-
-### Doneness checklist
-
-You're done with this project when:
-
-☐ All Task Completion Tests are passing
-
-☐ You've completed Participant End-of-Unit Survey (a short survey to help us improve the project
-and the project process for next time! Optional, but highly encouraged)
-
-
 ## The Problem: Amazon Kindle Publishing
 
 The Amazon Kindle store provides millions of ebooks to our customers. The process of publishing an
@@ -46,10 +27,6 @@ to add a book to the catalog.
 
 As a member of the Amazon Kindle team, you will be launching a new service that allows our
 publishing department to convert books into a digital format.
-
-*NOTE: We don't want to give the wrong impression, Amazon Kindle already supports the conversion
-from physical to digital format, but this is our interpretation and simplification of what the
-process of designing and implementing such a service might look like.*
 
 The overview, architecture, and implementation are covered in the [design document here](DESIGN_DOCUMENT.md). Almost all major pieces of software at Amazon first go through an intensive design
 review to answer the question "Are we building the right thing for our customer?".

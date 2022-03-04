@@ -58,7 +58,7 @@ public class SubmitBookForPublishingActivityTest {
                 eq(request.getBookId()))).thenReturn(item);
 
         // WHEN
-        SubmitBookForPublishingResponse response = activity.handleRequest(request, null);
+        SubmitBookForPublishingResponse response = activity.execute(request);
 
         // THEN
         assertEquals("publishing.123", response.getPublishingRecordId(), "Expected response to return a publishing" +
@@ -81,7 +81,7 @@ public class SubmitBookForPublishingActivityTest {
                 isNull())).thenReturn(item);
 
         // WHEN
-        SubmitBookForPublishingResponse response = activity.handleRequest(request, null);
+        SubmitBookForPublishingResponse response = activity.execute(request);
 
         // THEN
         assertEquals("publishing.123", response.getPublishingRecordId(), "Expected response to return a publishing" +

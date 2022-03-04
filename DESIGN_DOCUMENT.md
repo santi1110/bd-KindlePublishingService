@@ -284,7 +284,7 @@ calls to these methods.
 
 ## Asynchronous Book Publishing
 
-When the ECS service starts up, we make a call to start our `BookPublisher`. This schedules a
+When the App starts up, we make a call to start our `BookPublisher`. This schedules a
 `Runnable` to execute repeatedly while the service runs.
 
 We will have this `Runnable` retrieve a book publish request from `BookPublishRequestManager` and

@@ -22,7 +22,7 @@ import javax.inject.Inject;
  * This API allows the client to retrieve a book.
  */
 
-public class GetBookActivity implements RequestHandler<GetBookRequest, GetBookResponse> {
+public class GetBookActivity {
     private RecommendationsServiceClient recommendationServiceClient;
     private CatalogDao catalogDao;
 
@@ -45,7 +45,7 @@ public class GetBookActivity implements RequestHandler<GetBookRequest, GetBookRe
      * @return GetBookResponse Response object containing the requested book.
      */
 
-    public GetBookResponse handleRequest(final GetBookRequest request, Context context) {
+    public GetBookResponse execute(final GetBookRequest request) {
         CatalogItemVersion catalogItem = catalogDao.getBookFromCatalog(request.getBookId());
         List<BookRecommendation> recommendations = recommendationServiceClient.getBookRecommendations(
             BookGenre.valueOf(catalogItem.getGenre().name()));

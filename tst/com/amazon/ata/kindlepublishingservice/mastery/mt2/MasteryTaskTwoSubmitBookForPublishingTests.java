@@ -35,7 +35,7 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
             .build();
 
         // WHEN
-        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
+        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().execute(submitBookForPublishingRequest);
 
         // THEN
         PublishingStatusItem key = new PublishingStatusItem();
@@ -67,7 +67,7 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
             .build();
 
         // WHEN
-        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
+        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().execute(submitBookForPublishingRequest);
 
         // THEN
         PublishingStatusItem key = new PublishingStatusItem();
@@ -97,7 +97,7 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
             .build();
 
         // WHEN
-        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null);
+        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().execute(submitBookForPublishingRequest);
 
       // THEN
         PublishingStatusItem key = new PublishingStatusItem();
@@ -126,7 +126,7 @@ public class MasteryTaskTwoSubmitBookForPublishingTests extends IntegrationTestB
 
         // WHEN + THEN
         assertThrows(BookNotFoundException.class, () ->
-                COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(submitBookForPublishingRequest, null));
+                COMPONENT.provideSubmitBookForPublishingActivity().execute(submitBookForPublishingRequest));
     }
 
     private CatalogItemVersion saveNewCatalogItemVersion(boolean inactive) {

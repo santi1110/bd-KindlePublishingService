@@ -90,6 +90,7 @@ dependencies {
     implementation project('LibrariesAndUtilities:LessonPlanResources')
     implementation project('LibrariesAndUtilities:ATACurriculum_JavaProjectResources')
     implementation project('LibrariesAndUtilities:ATACurriculum_RecommendationsService')
+    implementation project('LibrariesAndUtilities:ATACurriculumTestInfrastructure')
 
     implementation group: 'javax.measure', name: 'unit-api', version: '1.0'
 

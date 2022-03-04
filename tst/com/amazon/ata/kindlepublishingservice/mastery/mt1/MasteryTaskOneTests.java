@@ -42,7 +42,7 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
         removeBookFromCatalogRequest.setBookId(bookId);
 
         // WHEN
-        COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null);
+        COMPONENT.provideRemoveBookFromCatalogActivity().execute(removeBookFromCatalogRequest);
 
         // THEN
         CatalogItemVersion result = super.getTestDao().load(catalogItemVersion);
@@ -77,7 +77,7 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
         removeBookFromCatalogRequest.setBookId(bookId);
 
         // WHEN we remove the catalog item
-        COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null);
+        COMPONENT.provideRemoveBookFromCatalogActivity().execute(removeBookFromCatalogRequest);
 
         // THEN it should only update the second version
         CatalogItemVersion savedSecondVersion = super.getTestDao().load(secondVersion);
@@ -111,7 +111,7 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
 
         // WHEN + THEN
         assertThrows(BookNotFoundException.class, () ->
-                COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null));
+                COMPONENT.provideRemoveBookFromCatalogActivity().execute(removeBookFromCatalogRequest));
     }
 
     @Test
@@ -122,13 +122,13 @@ public class MasteryTaskOneTests extends IntegrationTestBase {
 
         // WHEN + THEN
         assertThrows(BookNotFoundException.class, () ->
-                COMPONENT.provideRemoveBookFromCatalogActivity().handleRequest(removeBookFromCatalogRequest, null));
+                COMPONENT.provideRemoveBookFromCatalogActivity().execute(removeBookFromCatalogRequest));
     }
 
     private void assertGetBookRequestThrowsBookNotFoundException() {
         GetBookRequest getBookRequest = new GetBookRequest();
         getBookRequest.setBookId(bookId);
         assertThrows(BookNotFoundException.class, () ->
-                COMPONENT.provideGetBookActivity().handleRequest(getBookRequest, null));
+                COMPONENT.provideGetBookActivity().execute(getBookRequest));
     }
 }

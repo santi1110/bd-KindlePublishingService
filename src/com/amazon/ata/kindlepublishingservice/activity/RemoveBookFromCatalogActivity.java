@@ -9,7 +9,7 @@ import javax.inject.Inject;
 public class RemoveBookFromCatalogActivity {
     @Inject
     RemoveBookFromCatalogActivity() {}
-    public RemoveBookFromCatalogResponse handleRequest(RemoveBookFromCatalogRequest removeBookFromCatalogRequest, Context context) {
+    public RemoveBookFromCatalogResponse execute(RemoveBookFromCatalogRequest removeBookFromCatalogRequest) {
         return null;
     }
 }

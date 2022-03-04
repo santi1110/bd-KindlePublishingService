@@ -10,7 +10,7 @@ public class GetPublishingStatusActivity {
     @Inject
     public GetPublishingStatusActivity() {}
 
-    public GetPublishingStatusResponse handleRequest(GetPublishingStatusRequest publishingStatusRequest, Context context) {
+    public GetPublishingStatusResponse execute(GetPublishingStatusRequest publishingStatusRequest) {
         return null;
     }
 }

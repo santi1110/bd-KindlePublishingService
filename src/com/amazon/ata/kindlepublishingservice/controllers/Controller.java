@@ -19,7 +19,7 @@ public class Controller {
     public ResponseEntity<?> getBook(@PathVariable String id) {
         GetBookActivity bookActivity = component.provideGetBookActivity();
         GetBookRequest getBookRequest = GetBookRequest.builder().withBookId(id).build();
-        return new ResponseEntity<>(bookActivity.handleRequest(getBookRequest, null), HttpStatus.OK);
+        return new ResponseEntity<>(bookActivity.execute(getBookRequest), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/books/{id}")

@@ -44,7 +44,7 @@ public class MasteryTaskThreeTests extends IntegrationTestBase {
             .build();
 
         // WHEN
-        GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().handleRequest(request, null);
+        GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().execute(request);
 
         // THEN
         assertNotNull(response.getPublishingStatusHistory(), "Expected a non null response from GetPublishingStatus");
@@ -66,7 +66,7 @@ public class MasteryTaskThreeTests extends IntegrationTestBase {
             .build();
 
         // WHEN
-        GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().handleRequest(request, null);
+        GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().execute(request);
 
         // THEN
         assertNotNull(response.getPublishingStatusHistory(), "Expected a non null response from GetPublishingStatus");
@@ -96,7 +96,7 @@ public class MasteryTaskThreeTests extends IntegrationTestBase {
 
         // WHEN + THEN
         assertThrows(PublishingStatusNotFoundException.class, () ->
-                COMPONENT.provideGetPublishingStatusActivity().handleRequest(request, null));
+                COMPONENT.provideGetPublishingStatusActivity().execute(request));
     }
 
     private void assertPublishingStatusRecord(PublishingStatusRecord actual,

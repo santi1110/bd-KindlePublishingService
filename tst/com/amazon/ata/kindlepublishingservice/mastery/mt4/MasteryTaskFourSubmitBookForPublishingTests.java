@@ -53,7 +53,7 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
             .build();
 
         // WHEN
-        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(request, null);
+        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().execute(request);
 
         // THEN
         // wait for queued status
@@ -76,7 +76,7 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
             .withBookId(successful.getBookId())
             .build();
 
-        GetBookResponse getBookResponse = COMPONENT.provideGetBookActivity().handleRequest(getBookRequest, null);
+        GetBookResponse getBookResponse = COMPONENT.provideGetBookActivity().execute(getBookRequest);
 
         Book book = getBookResponse.getBook();
         assertEquals(book.getAuthor(), request.getAuthor(), "Expected a successful book publish request" +
@@ -116,7 +116,7 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
         super.getTestDao().save(existingBook);
 
         // WHEN
-        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().handleRequest(request, null);
+        SubmitBookForPublishingResponse response = COMPONENT.provideSubmitBookForPublishingActivity().execute(request);
 
         // THEN
         // wait for queued status
@@ -139,7 +139,7 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
             .withBookId(successful.getBookId())
             .build();
 
-        GetBookResponse getBookResponse = COMPONENT.provideGetBookActivity().handleRequest(getBookRequest, null);
+        GetBookResponse getBookResponse = COMPONENT.provideGetBookActivity().execute(getBookRequest);
 
         Book book = getBookResponse.getBook();
         assertEquals(book.getAuthor(), request.getAuthor(), "Expected a successful book publish request" +
@@ -178,7 +178,7 @@ public class MasteryTaskFourSubmitBookForPublishingTests extends IntegrationTest
         while (currentAttempt <= MAX_GET_EXPECTED_STATUS_ATTEMPTS) {
             System.out.println(String.format("Attempt [%s]: Calling GetPublishingStatus", currentAttempt));
 
-            GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().handleRequest(request, null);
+            GetPublishingStatusResponse response = COMPONENT.provideGetPublishingStatusActivity().execute(request);
 
             Optional<PublishingStatusRecord> record = response.getPublishingStatusHistory().stream()
                 .filter(p -> expectedStatus.equals(p.getStatus()))
