@@ -48,7 +48,7 @@ version of an inactive book. Make sure to add additional unit tests for this cas
 To test your new API, try submitting requests with a non-existant `bookId,` with an active `bookId`, and with an
 inactive `bookId` to ensure you are getting expected results back.
 
-Run `MasteryTaskTwoSubmitBookForPublishingTests` and `MasteryTaskTwoBookPublishRequestManagerTests` to validate your changes.
+Run `MasteryTaskTwoSubmitBookForPublishingTests`to validate your changes.
 
 **Exit Checklist:**
 
