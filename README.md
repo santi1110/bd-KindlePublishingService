@@ -49,11 +49,7 @@ the request as it continues to receive other, new requests. The service is worki
 concurrently - we can think of this as multi-tasking for now. We’ll spend a lot more time in ATA in
 this unit and future units digging into the concept of concurrency much more deeply.
 
-In previous units, we were deploying our services to AWS Lambda, which allowed us to save money and
-resources by shutting down when we weren't busy working on a request. In this project, we will be
-using AWS ECS to deploy and run our service. Unlike Lambda, our ECS service will always be up and
-running. This will allow us to do our asynchronous work, since we won’t shut our service down after
-we send back a response. We still have work to do!
+Note:  You may need to add ***Mock***s to some tests as you progress through the Mastery Tasks.
 
 &nbsp;
 
