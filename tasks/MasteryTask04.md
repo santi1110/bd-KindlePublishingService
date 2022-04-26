@@ -75,12 +75,10 @@ about another thread’s write. Therefore another tool we have to write thread-s
 A `BookPublishRequest` will never be a resource shared by multiple threads, but let's practice using our immutability
 tool anyway. Update `BookPublishRequest` be immutable, and by doing so we'll prevent unintended subclassing!
 
-Run `MasteryTaskFourTests` workflow to validate your changes.
-
 **Exit checklist:**
 
 * You’ve implemented `BookPublishTask`, a `Runnable` which processes a request from the `BookPublishRequestManger` to
   publish a books to the catalog.
 * You’ve updated `BookPublishRequestManger` and `BookPublishRequest` to make them thread safe.
 * You’ve added unit tests to cover your new code.
-* `MasteryTaskFourTests` and `MasteryTaskFourSubmitBookForPublishingTests` pass
+* `MasteryTaskFourSubmitBookForPublishingTests` pass
