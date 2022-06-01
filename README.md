@@ -2,7 +2,7 @@
 
 ### Ambiguity, Complexity, and Scope
 
-Ambiguity will be increasing from Unit 4’s project as you make your way through the Unit 6 project
+Ambiguity will be increasing from prior unit's projects as you make your way through the Unit 6 project
 mastery tasks. We’ll assume you’ll be using the design document to understand the requirements and
 how to implement each API, so the tasks will contain fewer details. After walking you through
 something once, we won’t be mentioning it again in each subsequent task. For example, we used Dagger
@@ -35,6 +35,10 @@ By working on the preparedness and mastery tasks for this project, you will fini
 implementation of the service described in the document.
 
 Carefully read the design document and refer back to it while working on the tasks.
+
+#### Remember: U.P.E.R
+
+Examine the folders in the starter project to be sure you are familair with their contents.  Everything you need to start the project, create/populate your DynamoDB tables has been provided.
 
 ## Project Preparedness Tasks
 
