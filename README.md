@@ -51,7 +51,7 @@ this unit and future units digging into the concept of concurrency much more dee
 
 Examine the folders in the starter project to be sure you are familiar with their contents.  Everything you need to start the project, create/populate your DynamoDB tables has been provided.
 
-### Remember: U.P.E.R
+#### Remember: U.P.E.R.
 
 Note:  You may need to add ***Mock***s to some tests as you progress through the Mastery Tasks.
 
