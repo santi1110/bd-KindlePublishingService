@@ -49,7 +49,7 @@ the request as it continues to receive other, new requests. The service is worki
 concurrently - we can think of this as multi-tasking for now. We’ll spend a lot more time in 
 this unit and future units digging into the concept of concurrency much more deeply.
 
-Examine the folders in the starter project to be sure you are familiar with their contents.  Everything you need to start the project, create/populate your DynamoDB tables has been provided.
+Examine the folders in the starter project to be sure you are familiar with their contents.  Everything you need to start the project and create/populate your DynamoDB tables has been provided.
 
 #### Remember: U.P.E.R.
 
