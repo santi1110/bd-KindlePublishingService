@@ -36,10 +36,6 @@ implementation of the service described in the document.
 
 Carefully read the design document and refer back to it while working on the tasks.
 
-#### Remember: U.P.E.R
-
-Examine the folders in the starter project to be sure you are familair with their contents.  Everything you need to start the project, create/populate your DynamoDB tables has been provided.
-
 ## Project Preparedness Tasks
 
 Up to this point, the services we have developed in projects have had synchronous APIs. This
@@ -50,8 +46,12 @@ client disconnects. This is helpful when the work that needs to be done will tak
 time. A client will only wait so long for a response, so it is helpful to quickly return a
 successful response acknowledging the work is under way. The service will then continue to work on
 the request as it continues to receive other, new requests. The service is working on these requests
-concurrently - we can think of this as multi-tasking for now. We’ll spend a lot more time in ATA in
+concurrently - we can think of this as multi-tasking for now. We’ll spend a lot more time in 
 this unit and future units digging into the concept of concurrency much more deeply.
+
+Examine the folders in the starter project to be sure you are familiar with their contents.  Everything you need to start the project, create/populate your DynamoDB tables has been provided.
+
+### Remember: U.P.E.R
 
 Note:  You may need to add ***Mock***s to some tests as you progress through the Mastery Tasks.
 
