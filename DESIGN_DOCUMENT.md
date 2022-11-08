@@ -259,8 +259,6 @@ Below are the data models for the DynamoDB tables.
 
 ![Sequence diagram for getBook API](src/resources/getBook.png)
 
-*[PlantUML source for diagram](https://tiny.amazon.com/8yicnch2/getBook)*
-
 ### RemoveBookFromCatalog
 
 <**MT01.MILESTONE 1**>
@@ -274,13 +272,9 @@ calls to these methods.
 
 ![Sequence diagram for submitBook API](src/resources/submitBook.png)
 
-*[PlantUML source for diagram](https://tiny.amazon.com/1f1qb1cfd/submitBook)*
-
 ### GetPublishingStatus
 
 ![Sequence diagram for getPublishingStatus API](src/resources/getPublishingStatus.png)
-
-*[PlantUML source for diagram](https://tiny.amazon.com/1d2776gb8/getPub)*
 
 ## Asynchronous Book Publishing
 
@@ -306,4 +300,3 @@ perform the steps required for publishing a Kindle book into the catalog. For ea
 
 ![Sequence diagram for Asynchronous Book Processing](src/resources/processing.png)
 
-*[PlantUML source for diagram](https://tiny.amazon.com/1dasbgpgn/processing)*
