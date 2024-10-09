@@ -41,6 +41,37 @@ public class CatalogDaoTest {
         initMocks(this);
     }
 
+
+    @Test
+    public void removeBookFromCatalog_bookExists_marksBookAsInactive() {
+        // GIVEN
+        String bookId = "book.123";
+        CatalogItemVersion item = new CatalogItemVersion();
+        item.setInactive(false);
+        item.setBookId(bookId);
+        item.setVersion(1);
+
+        // Simulate DynamoDB query returning an active book
+        when(dynamoDbMapper.query(eq(CatalogItemVersion.class), any(DynamoDBQueryExpression.class)))
+                .thenReturn(list);
+        when(list.isEmpty()).thenReturn(false);
+        when(list.get(0)).thenReturn(item);
+
+        // ArgumentCaptor to verify saved item
+        ArgumentCaptor<CatalogItemVersion> captor = ArgumentCaptor.forClass(CatalogItemVersion.class);
+
+        // WHEN
+        catalogDao.removeBookFromCatalog(bookId);
+
+        // THEN
+        verify(dynamoDbMapper).save(captor.capture());
+        CatalogItemVersion savedItem = captor.getValue();
+
+        assertTrue(savedItem.isInactive(), "Expected the book to be marked as inactive.");
+        assertEquals(bookId, savedItem.getBookId(), "Expected the correct bookId to be passed.");
+    }
+
+
     @Test
     public void getBookFromCatalog_bookDoesNotExist_throwsException() {
         // GIVEN
