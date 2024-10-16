@@ -29,6 +29,7 @@ public class CatalogDao {
     /**
      * Returns the latest version of the book from the catalog corresponding to the specified book id.
      * Throws a BookNotFoundException if the latest version is not active or no version is found.
+     *
      * @param bookId Id associated with the book.
      * @return The corresponding CatalogItem from the catalog table.
      */
@@ -48,9 +49,9 @@ public class CatalogDao {
         book.setBookId(bookId);
 
         DynamoDBQueryExpression<CatalogItemVersion> queryExpression = new DynamoDBQueryExpression()
-            .withHashKeyValues(book)
-            .withScanIndexForward(false)
-            .withLimit(1);
+                .withHashKeyValues(book)
+                .withScanIndexForward(false)
+                .withLimit(1);
 
         List<CatalogItemVersion> results = dynamoDbMapper.query(CatalogItemVersion.class, queryExpression);
         if (results.isEmpty()) {
@@ -58,6 +59,7 @@ public class CatalogDao {
         }
         return results.get(0);
     }
+
     public void removeBookFromCatalog(String bookId) {
         CatalogItemVersion book = getLatestVersionOfBook(bookId);
 
@@ -70,5 +72,12 @@ public class CatalogDao {
 
         // Save the updated book version
         dynamoDbMapper.save(book);
+    }
+
+    public void validateBookExists(String bookId) {
+        CatalogItemVersion book = getLatestVersionOfBook(bookId);
+        if (book == null) {
+            throw new BookNotFoundException(String.format("Book with id %s not found.", bookId));
+        }
     }
 }
