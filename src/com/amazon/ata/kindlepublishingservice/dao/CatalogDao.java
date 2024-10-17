@@ -43,21 +43,22 @@ public class CatalogDao {
         return book;
     }
 
-    // Returns null if no version exists for the provided bookId
     private CatalogItemVersion getLatestVersionOfBook(String bookId) {
         CatalogItemVersion book = new CatalogItemVersion();
-        book.setBookId(bookId);
+        book.setBookId(bookId);  // Set the partition key (bookId)
 
         DynamoDBQueryExpression<CatalogItemVersion> queryExpression = new DynamoDBQueryExpression()
-                .withHashKeyValues(book)
-                .withScanIndexForward(false)
-                .withLimit(1);
+                .withHashKeyValues(book)  // Query based on bookId
+                .withScanIndexForward(false)  // Retrieve the latest version
+                .withLimit(1);  // Only fetch the latest version
 
         List<CatalogItemVersion> results = dynamoDbMapper.query(CatalogItemVersion.class, queryExpression);
-        if (results.isEmpty()) {
-            return null;
+
+        if (results == null || results.isEmpty()) {
+            return null;  // No results found
         }
-        return results.get(0);
+
+        return results.get(0);  // Return the latest version
     }
 
     public void removeBookFromCatalog(String bookId) {
@@ -66,7 +67,6 @@ public class CatalogDao {
         if (book == null) {
             throw new BookNotFoundException(String.format("No book found for id: %s", bookId));
         }
-
         // Mark the book as inactive
         book.setInactive(true);
 
@@ -75,9 +75,17 @@ public class CatalogDao {
     }
 
     public void validateBookExists(String bookId) {
-        CatalogItemVersion book = getLatestVersionOfBook(bookId);
-        if (book == null) {
-            throw new BookNotFoundException(String.format("Book with id %s not found.", bookId));
+        try {
+            CatalogItemVersion book = getLatestVersionOfBook(bookId);
+            if (book == null) {
+                throw new BookNotFoundException(String.format("Book with id %s not found.", bookId));
+            }
+        } catch (Exception e) {
+            // Log the exception and rethrow it to capture more context
+            System.err.println("Error while validating book with id: " + bookId);
+            e.printStackTrace();
+            throw new BookNotFoundException(String.format("Book with id %s not found due to an error.", bookId), e);
+
         }
     }
 }

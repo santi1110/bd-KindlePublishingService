@@ -1,5 +1,6 @@
 package com.amazon.ata.kindlepublishingservice.activity;
 
+import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
 import com.amazon.ata.kindlepublishingservice.models.requests.SubmitBookForPublishingRequest;
 import com.amazon.ata.kindlepublishingservice.models.response.SubmitBookForPublishingResponse;
 import com.amazon.ata.kindlepublishingservice.converters.BookPublishRequestConverter;
@@ -39,7 +40,7 @@ public class SubmitBookForPublishingActivity {
                                            BookPublishRequestManager requestManager) {
         this.publishingStatusDao = publishingStatusDao;
         this.catalogDao = catalogDao;
-        this.requestManager = requestManager;
+        this.requestManager = requestManager;  // Remove manual initialization
     }
 
     /**
@@ -54,17 +55,19 @@ public class SubmitBookForPublishingActivity {
     public SubmitBookForPublishingResponse execute(SubmitBookForPublishingRequest request) {
         final BookPublishRequest bookPublishRequest = BookPublishRequestConverter.toBookPublishRequest(request);
 
+        // Convert the request into a BookPublishRequest
 
         if (bookPublishRequest.getBookId() != null) {
             catalogDao.validateBookExists(bookPublishRequest.getBookId());
         }
 
+        // Add the book publish request to the request manager
         requestManager.addBookPublishRequest(bookPublishRequest);
 
         PublishingStatusItem item = publishingStatusDao.setPublishingStatus(
                 bookPublishRequest.getPublishingRecordId(),
                 PublishingRecordStatus.QUEUED,
-                bookPublishRequest.getBookId()  // This will be null in your case
+                bookPublishRequest.getBookId()
         );
 
         return SubmitBookForPublishingResponse.builder()

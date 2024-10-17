@@ -7,9 +7,12 @@ import com.amazon.ata.kindlepublishingservice.utils.KindlePublishingUtils;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.inject.Inject;
 
 /**
@@ -76,5 +79,18 @@ public class PublishingStatusDao {
         item.setBookId(bookId);
         dynamoDbMapper.save(item);
         return item;
+    }
+    public List<PublishingStatusItem> getPublishingStatuses(String publishingStatusId) {
+        // Create the key condition for querying
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":publishingStatusId", new AttributeValue().withS(publishingStatusId));
+
+        // Build the query expression
+        DynamoDBQueryExpression<PublishingStatusItem> queryExpression = new DynamoDBQueryExpression<PublishingStatusItem>()
+                .withKeyConditionExpression("publishingRecordId = :publishingStatusId")
+                .withExpressionAttributeValues(valueMap);
+
+        // Query the table and return the list of PublishingStatusItems
+        return dynamoDbMapper.query(PublishingStatusItem.class, queryExpression);
     }
 }
