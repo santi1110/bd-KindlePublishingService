@@ -5,6 +5,7 @@ import com.amazon.ata.kindlepublishingservice.dao.CatalogDao;
 import com.amazon.ata.kindlepublishingservice.dao.PublishingStatusDao;
 import com.amazon.ata.kindlepublishingservice.publishing.BookPublishRequestManager;
 import com.amazon.ata.kindlepublishingservice.publishing.BookPublisher;
+import com.amazon.ata.kindlepublishingservice.publishing.BookPublishTask;
 
 import com.amazon.ata.kindlepublishingservice.publishing.NoOpTask;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -20,9 +21,12 @@ public class PublishingModule {
 
     @Provides
     @Singleton
-    public BookPublisher provideBookPublisher(ScheduledExecutorService scheduledExecutorService) {
-        return new BookPublisher(scheduledExecutorService, new NoOpTask());
+    public BookPublisher provideBookPublisher(ScheduledExecutorService scheduledExecutorService,
+                                              BookPublishTask bookPublishTask) {
+        // Replace NoOpTask with BookPublishTask
+        return new BookPublisher(scheduledExecutorService, bookPublishTask);
     }
+
 
     @Provides
     @Singleton
@@ -48,6 +52,11 @@ public class PublishingModule {
         return new BookPublishRequestManager();
     }
 
-
+    @Provides
+    public BookPublishTask provideBookPublishTask(BookPublishRequestManager requestManager,
+                                                  CatalogDao catalogDao,
+                                                  PublishingStatusDao publishingStatusDao) {
+        return new BookPublishTask(requestManager, catalogDao, publishingStatusDao);
+    }
 
 }

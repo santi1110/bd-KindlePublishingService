@@ -43,6 +43,7 @@ public class BookPublisher {
             return;
         }
         isRunning = true;
+        log.info("Starting BookPublisher, scheduling the publish task.");
         scheduledExecutorService.scheduleWithFixedDelay(publishTask, 0, 1, TimeUnit.SECONDS);
     }
 

@@ -2,6 +2,7 @@ package com.amazon.ata.kindlepublishingservice.dao;
 
 import com.amazon.ata.kindlepublishingservice.dynamodb.models.CatalogItemVersion;
 import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
+import com.amazon.ata.kindlepublishingservice.publishing.BookPublishRequest;
 import com.amazon.ata.kindlepublishingservice.publishing.KindleFormattedBook;
 import com.amazon.ata.kindlepublishingservice.utils.KindlePublishingUtils;
 
@@ -86,6 +87,38 @@ public class CatalogDao {
             e.printStackTrace();
             throw new BookNotFoundException(String.format("Book with id %s not found due to an error.", bookId), e);
 
+        }
+    }
+
+    public void publishBook(BookPublishRequest request) {
+        try {
+            // Retrieve the latest version of the book
+            CatalogItemVersion latestVersion = getLatestVersionOfBook(request.getBookId());
+
+            CatalogItemVersion newVersion = new CatalogItemVersion();
+            newVersion.setBookId(request.getBookId());
+            newVersion.setTitle(request.getTitle());
+            newVersion.setAuthor(request.getAuthor());
+            newVersion.setText(request.getText());
+            newVersion.setGenre(request.getGenre());
+            newVersion.setInactive(false);  // Mark as active
+
+            // If the book already exists, increment the version number
+            if (latestVersion != null) {
+                newVersion.setVersion(latestVersion.getVersion() + 1);
+                // Mark the old version as inactive
+                latestVersion.setInactive(true);
+                dynamoDbMapper.save(latestVersion); // Save the old version with inactive status
+            } else {
+                // This is the first version of the book
+                newVersion.setVersion(1);
+            }
+
+            // Save the new version to DynamoDB
+            dynamoDbMapper.save(newVersion);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to publish book", e);
         }
     }
 }

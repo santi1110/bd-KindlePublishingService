@@ -2,12 +2,14 @@ package com.amazon.ata.kindlepublishingservice.publishing;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class BookPublishRequestManager {
-    private Queue<BookPublishRequest> requestQueue;
+
+    private final Queue<BookPublishRequest> requestQueue;
 
     public BookPublishRequestManager() {
-        this.requestQueue = new LinkedList<>();
+        this.requestQueue = new ConcurrentLinkedQueue<>();
     }
 
     // Adds a new BookPublishRequest to the queue
